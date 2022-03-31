@@ -10,9 +10,9 @@ interface UnitProps {
   id: string;
   name: string;
   ex_level: number;
-  fragments?: number;
-  extra_units?: number;
-  nva?: boolean;
+  fragments: number;
+  extra_units: number;
+  nva: boolean;
   fragment_needed: number;
 }
 
@@ -110,8 +110,8 @@ export default function App() {
       id: genId(),
       name: inputUnitName,
       ex_level: inputExLevel,
-      fragments: inputFragments,
-      extra_units: inputExtraUnits,
+      fragments: inputFragments || 0,
+      extra_units: inputExtraUnits || 0,
       nva: inputNVAble,
       fragment_needed: fragmentNeededCalculator(inputExLevel, inputFragments, inputExtraUnits, inputNVAble),
     }];
@@ -206,7 +206,12 @@ export default function App() {
                   type="number"
                   min={0} placeholder="e.g. 50"
                   value={inputFragments}
-                  onChange={(e) => setInputFragments(parseInt(e.target.value))}
+                  onFocus={(e) => e.target.select()}
+                  onChange={(e) => {
+                    e.target.value ?
+                      setInputFragments(parseInt(e.target.value)) :
+                      setInputFragments(0);
+                  }}
                 />
                 <InputNumberButtonContainer>
                   <InputNumberButton
@@ -235,7 +240,12 @@ export default function App() {
                   min={0}
                   placeholder="e.g. 1"
                   value={inputExtraUnits}
-                  onChange={(e) => setInputExtraUnits(parseInt(e.target.value))}
+                  onFocus={(e) => e.target.select()}
+                  onChange={(e) => {
+                    e.target.value ?
+                      setInputExtraUnits(parseInt(e.target.value)) :
+                      setInputExtraUnits(0);
+                  }}
                 />
                 <InputNumberButtonContainer>
                   <InputNumberButton
@@ -317,7 +327,17 @@ export default function App() {
                     <td>{unit.name}</td>
                     <td>{'EX+' + unit.ex_level + ' -> ' + (unit.ex_level + 1)}</td>
                     <td>{unit.fragments}</td>
-                    <td>{unit.extra_units}</td>
+                    <td>{unit.extra_units}
+
+                      {unit.extra_units !== 0 && (
+                        <small>
+                          {' ('}
+                          {((unit.nva ? 25 : 50) * unit?.extra_units)}
+                          {' frags)'}
+                        </small>
+                      )}
+                    
+                    </td>
                     <td>{
                       unit.nva && (
                         <input readOnly checked={true} type="checkbox" disabled/>

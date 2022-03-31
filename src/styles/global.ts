@@ -60,6 +60,10 @@ export default createGlobalStyle`
     color: #ffffff;
   }
 
+  small {
+    font-size: 0.75rem;
+  }
+
   header {
     margin: 2rem auto 0;
     background: #1c377c;
@@ -138,6 +142,17 @@ export default createGlobalStyle`
   .banner-show {
     opacity: 1;
     transform: translateX(0) scale(1);
+  }
+
+  /* No input number arrows */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
   }
 
 `;
