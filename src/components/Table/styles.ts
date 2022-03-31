@@ -15,10 +15,11 @@ export const Table = styled.table`
     tr {
       th { 
         padding: 1.5rem 0.5rem;
-        min-width: 10rem;
+        min-width: 10.5rem;
         text-align: center;
         height: 3rem;
         vertical-align: bottom;
+        font-weight: 600;
       }
 
       th:first-child {
@@ -27,6 +28,7 @@ export const Table = styled.table`
         width: 100%;
       }
       th:last-child {
+        min-width: 11.5rem;
         padding-right: 1.5rem;
       }
     }

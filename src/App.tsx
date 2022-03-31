@@ -1,8 +1,10 @@
 import { FormEvent, useEffect, useState } from 'react';
+import { MdDelete, MdDeleteForever, MdRefresh } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import { Footer } from './components/Footer/styles';
 import { Button, Button2, Checkbox, Form, Input } from './components/Form/styles';
 import { Table } from './components/Table/styles';
+
 
 interface UnitProps {
   id: string;
@@ -216,12 +218,14 @@ export default function App() {
                   toast.success('Campos resetados', {icon: '👍'});
                 }
                 } title="Clique duplo para resetar">
-                  Resetar campos
+                  <MdRefresh size={16}/>
+                  <span>Resetar campos</span>
                 </Button>
               </th>
               <th>
                 <Button style={{background: '#AA1100', color: '#ffffff'}} type="button" onDoubleClick={handleDeleteAll} title="Clique duplo para apagar tudo">
-                  Deletar tudo
+                  <MdDeleteForever size={16}/>
+                  <span>Deletar tudo</span>
                 </Button>
               </th>
             </tr>
@@ -259,7 +263,8 @@ export default function App() {
 
               <td>
                 <Button2 onDoubleClick={() => handleDelete(unit.id, unit.name)} style={{backgroundColor: '#dde4f7'}}>
-                  Deletar
+                  <MdDelete size={16}/>
+                  <span>Deletar</span>
                 </Button2>
               </td>
             </tr>
@@ -275,8 +280,8 @@ export default function App() {
 
         <p>
           <em>
-            Os botões <strong>deletar</strong>, <strong>deletar tudo</strong>
-            e <strong>resetar campos</strong> funcionam com toque duplo.
+            Os botões <strong>deletar</strong>, <strong>deletar tudo</strong> e {' '}
+            <strong>resetar campos</strong> funcionam com toque duplo.
           </em>
         </p>
       </Footer>

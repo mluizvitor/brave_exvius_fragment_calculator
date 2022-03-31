@@ -70,11 +70,16 @@ export const Button = styled.button`
   border-radius: 8px;
   background: #ffffff;
   color: #1c377c;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
   text-transform: lowercase;
-  font-weight: bold;
+  font-weight: 600;
   width: 100%;
-  grid-column: span 2;
+  line-height: 110%;
+
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
 
   cursor: pointer;
 

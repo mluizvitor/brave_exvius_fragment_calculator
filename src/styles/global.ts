@@ -43,6 +43,10 @@ export default createGlobalStyle`
     line-height: 1.25rem;
   }
 
+  strong {
+    font-weight: 600;
+  }
+
   input, select {
     font-size: 1rem;
     padding: 0 0.5rem;
