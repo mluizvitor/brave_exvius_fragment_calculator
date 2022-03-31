@@ -1,9 +1,9 @@
 import { FormEvent, useEffect, useState } from 'react';
-import { MdDelete, MdDeleteForever, MdRefresh } from 'react-icons/md';
+import { MdAdd, MdClose, MdDelete, MdDeleteForever, MdHelpOutline, MdInfo, MdRefresh, MdRemove } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import { Footer } from './components/Footer/styles';
-import { Button, Button2, Checkbox, Form, Input } from './components/Form/styles';
-import { Table } from './components/Table/styles';
+import { Button, Button2, Checkbox, Form, FormAssist, FormBody, Input, InputNumberButton, InputNumberButtonContainer } from './components/Form/styles';
+import { Table, TableCanvas, TableEmpty } from './components/Table/styles';
 
 
 interface UnitProps {
@@ -126,6 +126,18 @@ export default function App() {
 
     handleReset();
   }
+  
+  function handleShowBanner() {
+    const infoBanner = document.getElementById('infoBanner');
+    infoBanner?.classList.add('banner-show');
+  }
+
+  function handleHideBanner() {
+    const infoBanner = document.getElementById('infoBanner');
+    setTimeout(() => {
+      infoBanner?.classList.remove('banner-show');
+    }, 500);
+  }
 
   useEffect(()=> {
     localStorage.setItem('@ffbe:fragments', JSON.stringify(tableContent));
@@ -134,157 +146,202 @@ export default function App() {
 
   return (
     <main>
-      <h1>FFBE Fragments</h1>
+      <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end'}}>
+        <h1>FFBE Fragments</h1>
 
-      <Form onSubmit={handleUnitSave}>
-        <Table>
-          <thead>
-            <tr>
-              <th>
-                <Input>
-                  <label htmlFor="unitName">Nome da unidade</label>
-                  <input
-                    id="unitName"
-                    type="text"
-                    placeholder="e.g. Elena"
-                    value={inputUnitName}
-                    onChange={(e) => setInputUnitName(e.target.value)}
-                    required
-                  />
-                </Input>
-              </th>
+        <Button id='infoButton' className='infoButton' onClick={handleShowBanner}>
+          <MdHelpOutline size={24}/>
+        </Button>
 
-              <th>
-                <Input>
-                  <label htmlFor="exLevel">Ex Level</label>
-                  <select
-                    value={inputExLevel}
-                    onChange={(e) => setInputExLevel(parseInt(e.target.value))}
-                    required>
-                    <option value={0}>Ex+0</option>
-                    <option value={1}>Ex+1</option>
-                    <option value={2}>Ex+2</option>
-                  </select>
-                </Input>
-              </th>
-
-              <th>
-                <Input>
-                  <label htmlFor="fragments">Fragmentos</label>
-                  <input
-                    id="fragments"
-                    type="number"
-                    min={0} placeholder="e.g. 50"
-                    value={inputFragments}
-                    onChange={(e) => setInputFragments(parseInt(e.target.value))}
-                  />
-                </Input>
-              </th>
-
-              <th>
-                <Input>
-                  <label htmlFor="extraUnits">Unidades Extra</label>
-                  <input
-                    id="extraUnits"
-                    type="number"
-                    min={0}
-                    placeholder="e.g. 1"
-                    value={inputExtraUnits}
-                    onChange={(e) => setInputExtraUnits(parseInt(e.target.value))}
-                  />
-                </Input>
-              </th>
-
-              <th>
-                <Checkbox>
-                  <input
-                    id="isNVAble"
-                    type="checkbox"
-                    min={0}
-                    checked={inputNVAble}
-                    onChange={(e) => setInputNVAble(e.target.checked)}/>
-                  <label htmlFor="isNVAble">NVA</label>
-                </Checkbox>
-              </th>
-
-              <th colSpan={2}>
-                <Button type="submit">
-                Adicionar
-                </Button>
-              </th>
-              <th>
-                <Button style={{background: '#ffaa00'}} type="button" onDoubleClick={() => {
-                  handleReset;
-                  toast.success('Campos resetados', {icon: '👍'});
-                }
-                } title="Clique duplo para resetar">
-                  <MdRefresh size={16}/>
-                  <span>Resetar campos</span>
-                </Button>
-              </th>
-              <th>
-                <Button style={{background: '#AA1100', color: '#ffffff'}} type="button" onDoubleClick={handleDeleteAll} title="Clique duplo para apagar tudo">
-                  <MdDeleteForever size={16}/>
-                  <span>Deletar tudo</span>
-                </Button>
-              </th>
-            </tr>
-          </thead>
-        </Table>
-      </Form>
-
-      <Table>
-        <thead>
-          <tr>
-            {tableHeadTitles.map((headTitle) => (
-              <th key={headTitle}>{headTitle}</th>
-            ))}
-          </tr>
-        </thead>
-
-        <tbody>
-          {tableContent && tableContent.map((unit) => (
-            <tr key={unit.id}>
-              <td>{unit.name}</td>
-              <td>{'EX+' + unit.ex_level + ' -> ' + (unit.ex_level + 1)}</td>
-              <td>{unit.fragments}</td>
-              <td>{unit.extra_units}</td>
-              <td>{
-                unit.nva && (
-                  <input readOnly checked={true} type="checkbox" disabled/>
-                )}
-              </td>
-              <td>{unit.fragment_needed >= 0 ? unit.fragment_needed : ('Sobram ' + Math.abs(unit.fragment_needed))}</td>
-              <td>{
-                unit.fragment_needed <= 0 && (
-                  <input readOnly checked={true} type="checkbox" className="inputSuccess" disabled/>
-                )}
-              </td>
-
-              <td>
-                <Button2 onDoubleClick={() => handleDelete(unit.id, unit.name)} style={{backgroundColor: '#dde4f7'}}>
-                  <MdDelete size={16}/>
-                  <span>Deletar</span>
-                </Button2>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-
-      <Footer>
-        <p>
-          <strong>FFBE Fragments Calculator</strong>, como o nome já diz vai ajudar
+        <Footer
+          id='infoBanner'
+          onMouseLeave={handleHideBanner}
+        >
+          <MdClose size={24} onClick={handleHideBanner} style={{position: 'absolute', top: '1rem', right: '1rem', cursor: 'pointer'}}/>
+          <p>
+            <strong>FFBE Fragments Calculator</strong>, como o nome já diz vai ajudar
           a calcular quantos fragmentos restam para despertar uma unidade.
-        </p>
+          </p>
 
-        <p>
-          <em>
+          <p>
             Os botões <strong>deletar</strong>, <strong>deletar tudo</strong> e {' '}
             <strong>resetar campos</strong> funcionam com toque duplo.
-          </em>
-        </p>
-      </Footer>
+          </p>
+        </Footer>
+
+      </div>
+
+      <header>
+        <Form onSubmit={handleUnitSave}>
+          <FormBody>
+            <Input>
+              <label htmlFor="unitName">Nome da Unidade</label>
+              <input
+                id="unitName"
+                type="text"
+                placeholder="e.g. Elena"
+                value={inputUnitName}
+                onChange={(e) => setInputUnitName(e.target.value)}
+                required
+              />
+            </Input>
+                
+            <Input>
+              <label htmlFor="exLevel">Ex Level</label>
+              <select
+                value={inputExLevel}
+                onChange={(e) => setInputExLevel(parseInt(e.target.value))}
+                required>
+                <option value={0}>Ex+0</option>
+                <option value={1}>Ex+1</option>
+                <option value={2}>Ex+2</option>
+              </select>
+            </Input>
+                
+            <Input>
+              <label htmlFor="fragments">Fragmentos</label>
+              <div className="inputNumber">
+                <input
+                  id="fragments"
+                  type="number"
+                  min={0} placeholder="e.g. 50"
+                  value={inputFragments}
+                  onChange={(e) => setInputFragments(parseInt(e.target.value))}
+                />
+                <InputNumberButtonContainer>
+                  <InputNumberButton
+                    onClick={() => setInputFragments(inputFragments + 1)}
+                    type='button'
+                  >
+                    <MdAdd size={16}/>
+                  </InputNumberButton>
+
+                  <InputNumberButton
+                    onClick={() => inputFragments > 0 && setInputFragments(inputFragments - 1)}
+                    type='button'
+                  >
+                    <MdRemove size={16}/>
+                  </InputNumberButton>
+                </InputNumberButtonContainer>
+              </div>
+            </Input>
+                
+            <Input>
+              <label htmlFor="extraUnits">Unidades Extra</label>
+              <div className='inputNumber'>
+                <input
+                  id="extraUnits"
+                  type="number"
+                  min={0}
+                  placeholder="e.g. 1"
+                  value={inputExtraUnits}
+                  onChange={(e) => setInputExtraUnits(parseInt(e.target.value))}
+                />
+                <InputNumberButtonContainer>
+                  <InputNumberButton
+                    onClick={() => setInputExtraUnits(inputExtraUnits + 1)}
+                    type='button'
+                  >
+                    <MdAdd size={16}/>
+                  </InputNumberButton>
+
+                  <InputNumberButton
+                    onClick={() => inputExtraUnits > 0 && setInputExtraUnits(inputExtraUnits - 1)}
+                    type='button'
+                  >
+                    <MdRemove size={16}/>
+                  </InputNumberButton>
+                </InputNumberButtonContainer>
+              </div>
+            </Input>
+
+            <Checkbox>
+              <input
+                id="isNVAble"
+                type="checkbox"
+                min={0}
+                checked={inputNVAble}
+                onChange={(e) => setInputNVAble(e.target.checked)}/>
+              <label htmlFor="isNVAble">NVA</label>
+            </Checkbox>
+          </FormBody>
+
+          <FormAssist>
+            <Button type="submit">
+              <MdAdd size={16}/>
+              <span>Adicionar</span>
+            </Button>
+
+            <Button
+              style={{background: '#ffaa00'}}
+              type="button"
+              onDoubleClick={() => {
+                handleReset();
+                toast.success('Campos resetados', {icon: '👍'});
+              }}
+              title="Clique duplo para resetar"
+            >
+              <MdRefresh size={16}/>
+              <span>Resetar campos</span>
+            </Button>
+                
+            <Button style={{background: '#AA1100', color: '#ffffff'}} type="button" onDoubleClick={handleDeleteAll} title="Clique duplo para apagar tudo">
+              <MdDeleteForever size={16}/>
+              <span>Deletar tudo</span>
+            </Button>
+          </FormAssist>
+        </Form>
+      </header>
+
+      {tableContent.length === 0
+        ? (
+          <TableEmpty>
+            <MdInfo size={32}/>
+            <h2>Nada por aqui</h2>
+          </TableEmpty>
+        )
+        : (
+          <TableCanvas>
+            <Table>
+              <thead>
+                <tr>
+                  {tableHeadTitles.map((headTitle) => (
+                    <th key={headTitle}>{headTitle}</th>
+                  ))}
+                </tr>
+              </thead>
+
+              <tbody>
+                {tableContent && tableContent.map((unit) => (
+                  <tr key={unit.id}>
+                    <td>{unit.name}</td>
+                    <td>{'EX+' + unit.ex_level + ' -> ' + (unit.ex_level + 1)}</td>
+                    <td>{unit.fragments}</td>
+                    <td>{unit.extra_units}</td>
+                    <td>{
+                      unit.nva && (
+                        <input readOnly checked={true} type="checkbox" disabled/>
+                      )}
+                    </td>
+                    <td>{unit.fragment_needed >= 0 ? unit.fragment_needed : ('Sobram ' + Math.abs(unit.fragment_needed))}</td>
+                    <td>{
+                      unit.fragment_needed <= 0 && (
+                        <input readOnly checked={true} type="checkbox" className="inputSuccess" disabled/>
+                      )}
+                    </td>
+
+                    <td>
+                      <Button2 onDoubleClick={() => handleDelete(unit.id, unit.name)} style={{backgroundColor: '#dde4f7'}}>
+                        <MdDelete size={16}/>
+                        <span>Deletar</span>
+                      </Button2>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </TableCanvas>
+        )}
     </main>
   );
 }

@@ -9,6 +9,10 @@ export default createGlobalStyle`
   }
 
   html { 
+    @media (max-width: 1366px) {
+      font-size: 93.75%;
+    }
+
     @media (max-width: 720px) {
       font-size: 87.5%;
     }
@@ -31,14 +35,14 @@ export default createGlobalStyle`
   main { 
     width: auto;
     margin: 0 auto;
-    padding: 4rem 8rem;
+    padding: 3rem 6rem;
 
-    @media (max-width: 720px) {
-      padding: 3rem 2rem;
+    @media (max-width: 1366px) {
+      padding: 3rem 1rem;
     }
   }
 
-  body, button { 
+  body, button, input, select { 
     font-family: Inter, sans-serif;
     line-height: 1.25rem;
   }
@@ -54,6 +58,16 @@ export default createGlobalStyle`
 
   h1 {
     color: #ffffff;
+  }
+
+  header {
+    margin: 2rem auto 0;
+    background: #1c377c;
+    padding: 1.5rem;
+    border-radius: 16px;
+    
+    z-index: 10;
+    
   }
 
   input[type="checkbox"] {
@@ -116,6 +130,14 @@ export default createGlobalStyle`
     font-family: Inter, sans-serif;
     line-height: 1.25rem;
     padding: 0.5rem 1rem;
+
+    color: #BBBBBB;
+    background: #1b1f2b;
+  }
+
+  .banner-show {
+    opacity: 1;
+    transform: translateX(0) scale(1);
   }
 
 `;

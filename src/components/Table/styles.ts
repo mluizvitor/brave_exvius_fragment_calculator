@@ -1,21 +1,28 @@
 import styled from 'styled-components';
 
-export const Table = styled.table`
-  
+export const TableCanvas = styled.div`
+  overflow: auto;
+  max-height: 64vh;
+  border-radius: 16px;
   margin-top: 2rem;
+`;
+
+export const Table = styled.table`
   border-spacing: 0;
   width: 100%;
-  border-radius: 16px;
-  overflow: hidden;
 
   thead { 
-    background: #1c377c;
+    background: #18274d;
     color: #ffffff;
+    position: sticky;
+    top: 0;
+
+    z-index: 9;
     
     tr {
       th { 
         padding: 1.5rem 0.5rem;
-        min-width: 10.5rem;
+        min-width: 8rem;
         text-align: center;
         height: 3rem;
         vertical-align: bottom;
@@ -28,7 +35,7 @@ export const Table = styled.table`
         width: 100%;
       }
       th:last-child {
-        min-width: 11.5rem;
+        min-width: 9rem;
         padding-right: 1.5rem;
       }
     }
@@ -73,4 +80,20 @@ export const Table = styled.table`
     }
 
   }
+`;
+
+export const TableEmpty = styled.div`
+  margin-top: 2rem;
+  width: 100%;
+  background: #eeeeee;
+  padding: 2rem;
+  border-radius: 16px;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  color: #666;
+  gap: 1rem;
 `;
