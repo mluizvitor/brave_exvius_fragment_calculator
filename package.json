@@ -1,6 +1,6 @@
 {
-  "name": "brave_exvius_fragment_manager",
-  "homepage": "https://mvitor.dev/brave_exvius_fragment_manager",
+  "name": "brave_exvius_fragment_calculator",
+  "homepage": "https://mvitor.dev/brave_exvius_fragment_calculator",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
