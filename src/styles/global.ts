@@ -31,7 +31,7 @@ export default createGlobalStyle`
   main { 
     width: auto;
     margin: 0 auto;
-    padding: 3rem 8rem;
+    padding: 4rem 8rem;
 
     @media (max-width: 720px) {
       padding: 3rem 2rem;

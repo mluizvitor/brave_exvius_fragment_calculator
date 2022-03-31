@@ -16,10 +16,10 @@ interface UnitProps {
 
 export default function App() {
   const tableHeadTitles = [
-    'Name',
+    'Nome da Unidade',
     'EX Level',
     'Fragmentos',
-    'Unidades Extras',
+    'Unidades Extra',
     'NVA',
     'Fragmentos necessários',
     'Pode ser despertado',
@@ -140,7 +140,7 @@ export default function App() {
             <tr>
               <th>
                 <Input>
-                  <label htmlFor="unitName">Unit name</label>
+                  <label htmlFor="unitName">Nome da unidade</label>
                   <input
                     id="unitName"
                     type="text"
@@ -168,7 +168,7 @@ export default function App() {
 
               <th>
                 <Input>
-                  <label htmlFor="fragments">Fragments</label>
+                  <label htmlFor="fragments">Fragmentos</label>
                   <input
                     id="fragments"
                     type="number"
@@ -181,7 +181,7 @@ export default function App() {
 
               <th>
                 <Input>
-                  <label htmlFor="extraUnits">Extra Units</label>
+                  <label htmlFor="extraUnits">Unidades Extra</label>
                   <input
                     id="extraUnits"
                     type="number"
@@ -216,7 +216,7 @@ export default function App() {
                   toast.success('Campos resetados', {icon: '👍'});
                 }
                 } title="Clique duplo para resetar">
-                  Resetar
+                  Resetar campos
                 </Button>
               </th>
               <th>
@@ -242,7 +242,7 @@ export default function App() {
           {tableContent && tableContent.map((unit) => (
             <tr key={unit.id}>
               <td>{unit.name}</td>
-              <td>{'EX+' + unit.ex_level}</td>
+              <td>{'EX+' + unit.ex_level + ' -> ' + (unit.ex_level + 1)}</td>
               <td>{unit.fragments}</td>
               <td>{unit.extra_units}</td>
               <td>{
@@ -250,7 +250,7 @@ export default function App() {
                   <input readOnly checked={true} type="checkbox" disabled/>
                 )}
               </td>
-              <td>{unit.fragment_needed >= 0 ? unit.fragment_needed : (Math.abs(unit.fragment_needed) + ' left over')}</td>
+              <td>{unit.fragment_needed >= 0 ? unit.fragment_needed : ('Sobram ' + Math.abs(unit.fragment_needed))}</td>
               <td>{
                 unit.fragment_needed <= 0 && (
                   <input readOnly checked={true} type="checkbox" className="inputSuccess" disabled/>
@@ -275,8 +275,8 @@ export default function App() {
 
         <p>
           <em>
-            Os botões <strong>deletar</strong>, <strong>deletar tudo</strong> e
-            <strong>resetar</strong> funcionam com toque duplo.
+            Os botões <strong>deletar</strong>, <strong>deletar tudo</strong>
+            e <strong>resetar campos</strong> funcionam com toque duplo.
           </em>
         </p>
       </Footer>

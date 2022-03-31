@@ -11,6 +11,11 @@ export const Input = styled.div`
   flex-direction: column;
   flex: 1;
 
+  label {
+    text-align: start;
+    width: 100%;
+  }
+
   input, select {
     width: 100%; 
     height: 3rem;

@@ -41,6 +41,10 @@ export const Table = styled.table`
       &:hover {
         filter: brightness(0.95)
       }
+
+      td:nth-child(6) {
+      background: #e2e2e2;
+    }
     }
 
     tr:last-of-type > td {
@@ -61,6 +65,7 @@ export const Table = styled.table`
       padding-left: 1.5rem;
       text-align: start;
     }
+
     td:last-child {
       padding-right: 1.5rem;
     }
