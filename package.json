@@ -58,7 +58,6 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-react": "^7.29.4",
-    "prettier": "^2.6.1",
-    "styled-components": "^5.3.5"
+    "prettier": "^2.6.1"
   }
 }
