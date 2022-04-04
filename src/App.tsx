@@ -1,4 +1,4 @@
-import { AddRounded, DeleteForeverRounded, DeleteRounded, EditRounded } from '@mui/icons-material';
+import { AddRounded, DeleteForeverRounded, DeleteRounded, EditRounded, WarningAmberRounded } from '@mui/icons-material';
 import { AppBar, Checkbox, Container, Fab, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from '@mui/material';
 import { Suspense, useState } from 'react';
 import { AddUnitModal } from './components/AddUnitModal';
@@ -59,7 +59,7 @@ export default function App() {
     }    
   ];
 
-  const { unitCollection, deleteSingleUnit } = useUnit();
+  const { unitCollection, deleteSingleUnit, deleteAllUnits } = useUnit();
 
   const [openAddUnitModal, setOpenAddUnitModal] = useState(false);
 
@@ -125,6 +125,7 @@ export default function App() {
 
             <IconButton
               color='warning'
+              onDoubleClick={deleteAllUnits}
             >
               <DeleteForeverRounded/>
             </IconButton>
@@ -155,71 +156,82 @@ export default function App() {
                 </TableHead>
 
                 <TableBody>
-                  {unitCollection.map((unit) => (
-                    <TableRow key={unit.id}>
-                      <TableCell>
-                        {unit.name}
-                      </TableCell>
-
-                      <TableCell
-                        align='center'
-                      >
-                        {`EX+${unit.ex_level} -> ${unit.ex_level+1}`}
-                      </TableCell>
-
-                      <TableCell>
-                        {unit.fragments}
-                      </TableCell>
-
-                      <TableCell>
-                        {unit.extra_units}
-                        {unit.extra_units !== 0 && (
-                          <Typography variant="caption" component="small">
-                            {' ('}
-                            {((unit.nva ? 25 : 50) * unit?.extra_units)}
-                            {' frags)'}
+                  {unitCollection.length === 0
+                    ? (
+                      <TableRow>
+                        <TableCell colSpan={8} >
+                          <WarningAmberRounded sx={{height: 32, width: 32, mr: 1, verticalAlign: 'middle'}} color='warning'/>
+                          <Typography variant='subtitle2' component='strong' sx={{verticalAlign: 'middle'}}>
+                            {'Nada por aqui'}
                           </Typography>
-                        )}
-                      </TableCell>
+                        </TableCell>
+                      </TableRow>
+                    )
+                    : unitCollection.map((unit) => (
+                      <TableRow key={unit.id}>
+                        <TableCell>
+                          {unit.name}
+                        </TableCell>
 
-                      <TableCell
-                        align='center'
-                      >
-                        {unit.nva ? (
-                          <Checkbox readOnly checked={true} tabIndex={-1} disableRipple/>
-                        ):(
-                          <Checkbox readOnly checked={false} tabIndex={-1} disableRipple/>
-                        )}
-                      </TableCell>
+                        <TableCell
+                          align='center'
+                        >
+                          {`EX+${unit.ex_level} -> ${unit.ex_level+1}`}
+                        </TableCell>
 
-                      <TableCell>
-                        {unit.fragment_needed >= 0  ?
-                          unit.fragment_needed :
-                          (Math.abs(unit.fragment_needed) + ' a mais')
-                        }
-                      </TableCell>
+                        <TableCell>
+                          {unit.fragments}
+                        </TableCell>
 
-                      <TableCell
-                        align='center'
-                      >
-                        {unit.can_awaken ? (
-                          <Checkbox readOnly color="success" checked={true} tabIndex={-1} disableRipple/>
-                        ):(
-                          <Checkbox readOnly checked={false} tabIndex={-1} disableRipple/>
-                        )}
-                      </TableCell>
+                        <TableCell>
+                          {unit.extra_units}
+                          {unit.extra_units !== 0 && (
+                            <Typography variant="caption" component="small">
+                              {' ('}
+                              {((unit.nva ? 25 : 50) * unit?.extra_units)}
+                              {' frags)'}
+                            </Typography>
+                          )}
+                        </TableCell>
 
-                      <TableCell>
-                        <IconButton>
-                          <EditRounded/>
-                        </IconButton>
+                        <TableCell
+                          align='center'
+                        >
+                          {unit.nva ? (
+                            <Checkbox readOnly checked={true} tabIndex={-1} disableRipple/>
+                          ):(
+                            <Checkbox readOnly checked={false} tabIndex={-1} disableRipple/>
+                          )}
+                        </TableCell>
 
-                        <IconButton onDoubleClick={() => deleteSingleUnit(unit.id, unit.name)}>
-                          <DeleteRounded/>
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                        <TableCell>
+                          {unit.fragment_needed >= 0  ?
+                            unit.fragment_needed :
+                            (Math.abs(unit.fragment_needed) + ' a mais')
+                          }
+                        </TableCell>
+
+                        <TableCell
+                          align='center'
+                        >
+                          {unit.can_awaken ? (
+                            <Checkbox readOnly color="success" checked={true} tabIndex={-1} disableRipple/>
+                          ):(
+                            <Checkbox readOnly checked={false} tabIndex={-1} disableRipple/>
+                          )}
+                        </TableCell>
+
+                        <TableCell>
+                          <IconButton disabled>
+                            <EditRounded/>
+                          </IconButton>
+
+                          <IconButton onDoubleClick={() => deleteSingleUnit(unit.id, unit.name)}>
+                            <DeleteRounded/>
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>
