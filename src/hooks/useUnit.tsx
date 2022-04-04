@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-interface UnitProps {
+interface Unit {
   id: string;
   name: string;
   ex_level: number;
@@ -12,14 +12,19 @@ interface UnitProps {
   can_awaken: boolean;
 }
 
-type UnitInputProps = Omit<UnitProps, 'id' | 'fragment_needed' | 'can_awaken'>;
+type UnitInputProps = Omit<Unit, 'id' | 'fragment_needed' | 'can_awaken'>;
 
 interface UnitContextData {
-  unitCollection: UnitProps[];
-
+  unitCollection: Unit[];
+  
   addUnit: (unitInput: UnitInputProps) => void;
+  editUnit: (unitInput: UnitInputProps) => void;
   deleteSingleUnit: (unitId: string, unitName: string) => void;
   deleteAllUnits: () => void;
+  
+  unitToManipulate: Unit;
+  handleUnitToManipulate: (unitEntry: Unit) => void;
+  clearUnitToManipulate: () => void;
 }
 
 interface UnitProviderProps {
@@ -30,11 +35,16 @@ const UnitContext = createContext<UnitContextData>({} as UnitContextData);
 
 export function UnitProvider({children}: UnitProviderProps) {
 
-  const [unitCollection, setUnitCollection] = useState<UnitProps[]>(() => {
+  /**
+   * 
+   * Init Unit Collection
+   * 
+   */
+  const [unitCollection, setUnitCollection] = useState<Unit[]>(() => {
     const savedData = localStorage.getItem('@ffbe:fragments');
     
     if (savedData) {
-      let savedDataToJson: UnitProps[] = JSON.parse(savedData);
+      let savedDataToJson: Unit[] = JSON.parse(savedData);
 
       savedDataToJson = savedDataToJson.map((data) => {
         return { ...data,
@@ -45,6 +55,23 @@ export function UnitProvider({children}: UnitProviderProps) {
     } else {
       return [];
     }
+  });
+
+  /**
+   * 
+   * Init Unit To Manipulate state
+   * 
+   */
+
+  const [unitToManipulate, setUnitToManipulate] = useState<Unit>({
+    id: '',
+    name: '',
+    ex_level: 0,
+    fragments: 0,
+    extra_units: 0,
+    nva: false,
+    fragment_needed: 0,
+    can_awaken: false
   });
 
   /**
@@ -124,13 +151,49 @@ export function UnitProvider({children}: UnitProviderProps) {
       can_awaken: fragmentsNeeded <= 0,
     }];
   
-    newTableContent.sort((a, b)=> {
-      return a.fragment_needed - b.fragment_needed;
-    });
-  
     setUnitCollection(newTableContent);
   
     toast.success(unitInput.name + ' adicionado(a) com sucesso', {icon: '👍'});
+  }
+
+  /**
+   * 
+   * Edit unit
+   * 
+   */
+  function editUnit(unitInput: UnitInputProps) {
+    try {
+      if (unitInput.name.length === 0) {
+        throw new Error();
+      }
+
+      const newUnitCollection = [...unitCollection];
+      const unitToEditIndex = newUnitCollection.findIndex((unit) => unit.id === unitToManipulate.id);
+
+      const fragmentsNeeded = fragmentNeededCalculator(
+        unitInput.ex_level,
+        unitInput.fragments,
+        unitInput.extra_units,
+        unitInput.nva
+      );
+      
+      newUnitCollection[unitToEditIndex] = {
+        ...unitToManipulate,
+        name: unitInput.name,
+        ex_level: unitInput.ex_level,
+        fragments: unitInput.fragments,
+        extra_units: unitInput.extra_units,
+        nva: unitInput.nva,
+        fragment_needed: fragmentsNeeded,
+        can_awaken: fragmentsNeeded <= 0,
+      };
+
+      setUnitCollection(newUnitCollection);
+      clearUnitToManipulate();
+
+    } catch (err) {
+      toast.error('Nome da unidade deve ser preenchido', {icon: '🙅'});
+    }
   }
 
   /**
@@ -156,6 +219,35 @@ export function UnitProvider({children}: UnitProviderProps) {
     toast.success('Todos os dados foram deletados', {icon: '👍'});
   }
 
+  /**
+   * 
+   * Save unit data to unitToManipulate state
+   * 
+   */
+
+  function handleUnitToManipulate(unitEntry: Unit) {
+    setUnitToManipulate(unitEntry);
+  }
+
+  /**
+   * 
+   * Clear unitToManipulate state
+   * 
+   */
+
+  function clearUnitToManipulate() {
+    setUnitToManipulate({
+      id: '',
+      name: '',
+      ex_level: 0,
+      fragments: 0,
+      extra_units: 0,
+      nva: false,
+      fragment_needed: 0,
+      can_awaken: false
+    });
+  }
+
   /***
    * 
    * Save unit collection to Local Storage
@@ -164,6 +256,16 @@ export function UnitProvider({children}: UnitProviderProps) {
   
   useEffect(()=> {
     localStorage.setItem('@ffbe:fragments', JSON.stringify(unitCollection));
+
+    function sortCollection() {
+      const newUnitCollection = [...unitCollection].sort((a, b)=> {
+        return a.fragment_needed - b.fragment_needed;
+      });
+
+      return newUnitCollection;
+    }
+
+    setUnitCollection(sortCollection);
     
   }, [unitCollection]);
 
@@ -171,8 +273,13 @@ export function UnitProvider({children}: UnitProviderProps) {
     <UnitContext.Provider value={{
       unitCollection,
       addUnit,
+      editUnit,
       deleteSingleUnit,
-      deleteAllUnits}}>
+      deleteAllUnits,
+      unitToManipulate,
+      handleUnitToManipulate,
+      clearUnitToManipulate
+    }}>
       { children }
     </UnitContext.Provider>
   );
