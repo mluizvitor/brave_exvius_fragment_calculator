@@ -98,6 +98,8 @@ export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
                 value={inputUnitName}
                 onChange={(e) => setInputUnitName(e.target.value)}
                 required
+                autoFocus={true}
+                autoComplete=''
                 id='EditUnitNameInput'
               />
             </Grid>

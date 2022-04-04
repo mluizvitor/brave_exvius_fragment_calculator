@@ -76,7 +76,7 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
     >
       <form onSubmit={handleSubmit}>
         <DialogTitle>
-          {'Adicionar nova Unidade'}
+          {'Adicionar Nova Unidade'}
         </DialogTitle>
 
         <DialogContent>
@@ -88,7 +88,8 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
                 value={inputUnitName}
                 onChange={(e) => setInputUnitName(e.target.value)}
                 required
-                autoFocus
+                autoFocus={true}
+                autoComplete=''
                 id='AddUnitNameInput'
               />
             </Grid>
