@@ -9,9 +9,10 @@ interface UnitProps {
   extra_units: number;
   nva: boolean;
   fragment_needed: number;
+  can_awaken: boolean;
 }
 
-type UnitInputProps = Omit<UnitProps, 'id' | 'fragment_needed'>;
+type UnitInputProps = Omit<UnitProps, 'id' | 'fragment_needed' | 'can_awaken'>;
 
 interface UnitContextData {
   unitCollection: UnitProps[];
@@ -97,6 +98,13 @@ export function UnitProvider({children}: UnitProviderProps) {
       alert('Unit Name must be filled');
       return;
     };
+
+    const fragmentsNeeded = fragmentNeededCalculator(
+      unitInput.ex_level,
+      unitInput.fragments,
+      unitInput.extra_units,
+      unitInput.nva
+    );
   
     const newTableContent = [...unitCollection, {
       id: genId(),
@@ -105,12 +113,8 @@ export function UnitProvider({children}: UnitProviderProps) {
       fragments: unitInput.fragments || 0,
       extra_units: unitInput.extra_units || 0,
       nva: unitInput.nva,
-      fragment_needed: fragmentNeededCalculator(
-        unitInput.ex_level,
-        unitInput.fragments,
-        unitInput.extra_units,
-        unitInput.nva
-      ),
+      fragment_needed: fragmentsNeeded,
+      can_awaken: fragmentsNeeded <= 0,
     }];
   
     newTableContent.sort((a, b)=> {
