@@ -2,7 +2,19 @@ import { AddRounded, DeleteForeverRounded, DeleteRounded, EditRounded, WarningAm
 import { AppBar, Checkbox, Container, Fab, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from '@mui/material';
 import { Suspense, useState } from 'react';
 import { AddUnitModal } from './components/AddUnitModal';
+import { EditUnitModal } from './components/EditUnitModal';
 import { useUnit } from './hooks/useUnit';
+
+interface Unit {
+  id: string;
+  name: string;
+  ex_level: number;
+  fragments: number;
+  extra_units: number;
+  nva: boolean;
+  fragment_needed: number;
+  can_awaken: boolean;
+}
 
 interface TableHeadTitleProps {
   id: 'name' | 'ex_level' | 'fragments' | 'extra_units' | 'nva' | 'fragment_needed' | 'can_awaken' | 'actions';
@@ -59,12 +71,22 @@ export default function App() {
     }    
   ];
 
-  const { unitCollection, deleteSingleUnit, deleteAllUnits } = useUnit();
+  const { unitCollection, deleteSingleUnit, deleteAllUnits, handleUnitToManipulate } = useUnit();
 
   const [openAddUnitModal, setOpenAddUnitModal] = useState(false);
+  const [openEditUnitModal, setOpenEditUnitModal] = useState(false);
 
-  function handleOpenClose() {
+  function handleAddUnitModalState() {
     setOpenAddUnitModal(!openAddUnitModal);
+  }
+
+  function handleEditUnitModalState() {
+    setOpenEditUnitModal(!openEditUnitModal);
+  }
+
+  function handleEditUnit(unitData: Unit){
+    handleEditUnitModalState();
+    handleUnitToManipulate(unitData);
   }
 
   return (
@@ -80,7 +102,8 @@ export default function App() {
         }
       }}
       >
-        <AddUnitModal isOpen={openAddUnitModal} openCloseFunction={handleOpenClose}/>
+        <AddUnitModal isOpen={openAddUnitModal} openCloseFunction={handleAddUnitModalState}/>
+        <EditUnitModal isOpen={openEditUnitModal} openCloseFunction={handleEditUnitModalState}/>
 
         <AppBar
           position="fixed"
@@ -103,7 +126,7 @@ export default function App() {
             {/* <Stack spacing={1} direction='row' > */}
             <Fab
               color='primary'
-              onClick={handleOpenClose}
+              onClick={handleAddUnitModalState}
               variant='extended'
               sx={{
                 position: {
@@ -222,7 +245,7 @@ export default function App() {
                         </TableCell>
 
                         <TableCell>
-                          <IconButton disabled>
+                          <IconButton onClick={() => handleEditUnit(unit)}>
                             <EditRounded/>
                           </IconButton>
 
