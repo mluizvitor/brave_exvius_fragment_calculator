@@ -11,6 +11,25 @@ export const theme = createTheme({
   },
   palette: {
     mode: 'dark',
+    primary: {
+      main: '#8CD0BA',
+    },
+    secondary: {
+      main: '#142F55',
+    },
+    success: {
+      main: '#0df287'
+    },
+    warning: {
+      main: '#FEBD34'
+    },
+    error: {
+      main: '#FE7060'
+    },
+    background: {
+      default: '#191A1C',
+      paper: '#1A2027'
+    },
   },
   components: {
     MuiButton: {
@@ -45,6 +64,13 @@ export const theme = createTheme({
         }
       }
     },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          fontWeight: 600,
+        }
+      }
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
@@ -53,5 +79,20 @@ export const theme = createTheme({
         }
       }
     },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          fontSize: '0.85rem'
+        }
+      }
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        head: {
+          fontSize: 16,
+          fontWeight: 600,
+        }
+      }
+    }
   }
 });

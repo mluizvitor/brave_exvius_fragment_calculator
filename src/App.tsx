@@ -179,12 +179,16 @@ export default function App() {
                 <TableHead>
                   <TableRow>
                     {tableHeadTitles.map((headTitle) => (
-                      <TableCell key={headTitle.title}
+                      <StyledTableHeaderCell key={headTitle.title}
                         align={headTitle.align}
-                        style={{width: (headTitle.width ? headTitle.width * 1.15 : 'auto'), minWidth: headTitle.width}}
+                        style={{
+                          width: (headTitle.width ? Math.ceil(headTitle.width * 1.5) : 'auto'),
+                          maxWidth: (headTitle.width ? Math.ceil(headTitle.width * 1.5) : 'auto'),
+                          minWidth: (headTitle.width || 192)
+                        }}
                       >
                         {headTitle.title}
-                      </TableCell>
+                      </StyledTableHeaderCell>
                     ))}
                   </TableRow>
                 </TableHead>
