@@ -154,6 +154,7 @@ export function UnitProvider({children}: UnitProviderProps) {
     setUnitCollection(newTableContent);
   
     toast.success(unitInput.name + ' adicionado(a) com sucesso', {icon: '👍'});
+    clearUnitToManipulate();
   }
 
   /**

@@ -166,15 +166,14 @@ export default function App() {
               <Table stickyHeader>
                 <TableHead>
                   <TableRow>
-                    {tableHeadTitles.slice()
-                      .map((headTitle) => (
-                        <TableCell key={headTitle.title}
-                          align={headTitle.align}
-                          style={{width: (headTitle.width ? headTitle.width * 1.15 : 'auto'), minWidth: headTitle.width}}
-                        >
-                          {headTitle.title}
-                        </TableCell>
-                      ))}
+                    {tableHeadTitles.map((headTitle) => (
+                      <TableCell key={headTitle.title}
+                        align={headTitle.align}
+                        style={{width: (headTitle.width ? headTitle.width * 1.15 : 'auto'), minWidth: headTitle.width}}
+                      >
+                        {headTitle.title}
+                      </TableCell>
+                    ))}
                   </TableRow>
                 </TableHead>
 
