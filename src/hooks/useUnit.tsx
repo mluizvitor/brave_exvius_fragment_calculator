@@ -34,7 +34,14 @@ export function UnitProvider({children}: UnitProviderProps) {
     const savedData = localStorage.getItem('@ffbe:fragments');
     
     if (savedData) {
-      return JSON.parse(savedData);
+      let savedDataToJson: UnitProps[] = JSON.parse(savedData);
+
+      savedDataToJson = savedDataToJson.map((data) => {
+        return { ...data,
+          can_awaken: data.can_awaken || data.fragment_needed <= 0 
+        };
+      });
+      return savedDataToJson;
     } else {
       return [];
     }
