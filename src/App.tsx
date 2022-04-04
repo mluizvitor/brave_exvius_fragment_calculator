@@ -1,9 +1,11 @@
-import { AddRounded, DeleteForeverRounded, DeleteRounded, EditRounded, WarningAmberRounded } from '@mui/icons-material';
-import { AppBar, Checkbox, Container, Fab, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from '@mui/material';
+import { AddRounded, CheckBoxOutlineBlankRounded, CheckBoxRounded, DeleteForeverRounded, DeleteOutlineRounded, EditRounded, WarningAmberRounded } from '@mui/icons-material';
+import { AppBar, Container, Fab, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Toolbar, Tooltip, Typography } from '@mui/material';
 import { Suspense, useState } from 'react';
 import { AddUnitModal } from './components/AddUnitModal';
 import { EditUnitModal } from './components/EditUnitModal';
+import { StyledTableHeaderCell } from './components/StyledTableHeadCell/styles';
 import { useUnit } from './hooks/useUnit';
+
 
 interface Unit {
   id: string;
@@ -17,7 +19,7 @@ interface Unit {
 }
 
 interface TableHeadTitleProps {
-  id: 'name' | 'ex_level' | 'fragments' | 'extra_units' | 'nva' | 'fragment_needed' | 'can_awaken' | 'actions';
+  id: string;
   title: string,
   align?: 'center' | 'left' | 'right';
   width?: number;
@@ -29,40 +31,36 @@ export default function App() {
       id: 'name',
       title: 'Nome da Unidade',
       align: 'left',
-      width: 12 * 16
     },
     {
       id: 'ex_level',
       title: 'EX Level',
-      align: 'center',
-      width: 9 * 16,
+      width: 6.5 * 16,
     },
     {
       id: 'fragments',
       title: 'Fragmentos',
-      width: 9 * 16,
+      width: 6.5 * 16,
     },
     {
       id: 'extra_units',
       title: 'Unidades Extra',
-      width: 9 * 16,
+      width: 6.5 * 16,
     },
     {
       id: 'nva',
       title: 'NVA',
-      align: 'center',
-      width: 9 * 16,
+      width: 6.5 * 16,
     },
     {
       id: 'fragment_needed',
       title: 'Fragmentos necessários',
-      width: 9 * 16,
+      width: 6.5 * 16,
     },
     {
       id: 'can_awaken',
       title: 'Pode ser despertado',
-      align: 'center',
-      width: 9 * 16,
+      width: 6.5 * 16,
     },
     {
       id: 'actions',
@@ -103,9 +101,80 @@ export default function App() {
 
   return (
     <>
+      <AppBar
+        position='fixed'
+        color='default'
+        sx={{
+          alignItems: 'center'
+        }}
+      >
+        <Toolbar
+          sx={{ 
+            pl: {
+              xs: 1
+            },
+            pr: {
+              xs: 1
+            },
+            width: '100%',
+            maxWidth: 'xl'
+          }}
+        >
+          <Typography variant='h5' component='h1' sx={{flexGrow: 1}}>
+            {'FFBE Fragments'}
+          </Typography>
+
+          {/* <Stack spacing={1} direction='row' > */}
+          <Fab
+            color='primary'
+            onClick={handleAddUnitModalState}
+            variant='extended'
+            sx={{
+              position: {
+                sm: 'inherit',
+                xs: 'fixed'
+              },
+              bottom: {
+                sm: 0,
+                xs: 16
+              },
+              right: {
+                sm: 0,
+                xs: '50%',
+              },
+              width: {
+                xs: 240
+              },
+              mr:{
+                sm: 1,
+                xs: (15 / 2) * -1,
+              }
+            }}
+          >
+            <AddRounded sx={{mr: 1}}/>
+            {'Adicionar Unidade'}
+          </Fab>
+
+          <Tooltip title='Deletar tudo' arrow>
+            <IconButton
+              color='warning'
+              onDoubleClick={deleteAllUnits}
+            >
+              <DeleteForeverRounded/>
+            </IconButton>
+          </Tooltip>
+        </Toolbar>
+      </AppBar>
+
       <Container maxWidth='xl' sx={{
-        mt: 6,
-        mb: 6,
+        pt: {
+          sm: 5.5,
+          xs: 4.5,
+        },
+        pb: {
+          sm: 2,
+          xs: 5
+        },
         pl: {
           xs: 1
         },
@@ -117,65 +186,30 @@ export default function App() {
         <AddUnitModal isOpen={openAddUnitModal} openCloseFunction={handleAddUnitModalState}/>
         <EditUnitModal isOpen={openEditUnitModal} openCloseFunction={handleEditUnitModalState}/>
 
-        <AppBar
-          position="fixed"
-          color='default'
-        >
-          <Toolbar
-            sx={{ 
-              pl: {
-                xs: 1
-              },
-              pr: {
-                xs: 1
-              }
-            }}
-          >
-            <Typography variant='h5' component='h1' sx={{flexGrow: 1}}>
-              {'FFBE Fragments'}
-            </Typography>
-
-            {/* <Stack spacing={1} direction='row' > */}
-            <Fab
-              color='primary'
-              onClick={handleAddUnitModalState}
-              variant='extended'
-              sx={{
-                position: {
-                  sm: 'inherit',
-                  xs: 'fixed'
-                },
-                bottom: {
-                  sm: 0,
-                  xs: 16
-                },
-                right: {
-                  xs: 16,
-                },
-              }}
-            >
-              <AddRounded sx={{mr: 1}}/>
-              {'Adicionar Unidade'}
-            </Fab>
-
-            <IconButton
-              color='warning'
-              onDoubleClick={deleteAllUnits}
-            >
-              <DeleteForeverRounded/>
-            </IconButton>
-            {/* </Stack> */}
-          </Toolbar>
-        </AppBar>
-
-      
         <Suspense fallback={(
           'Carregando'
         )}>
 
-          <Paper sx={{borderRadius: 2, overflow: 'hidden'}} variant='outlined'>
-            <TableContainer sx={{maxHeight: 'calc(100vh - 192px - 2px)'}}>
-              <Table stickyHeader>
+          <Paper
+            sx={{
+              borderRadius: 2,
+              overflow: 'hidden'
+            }} 
+            variant='outlined'
+          >
+            <TableContainer
+              sx={{
+                maxHeight: {
+                  sm: 'calc(100vh - 88px - 32px - 52px - 2px)',
+                  xs: 'calc(100vh - 72px - 80px - 52px - 2px)'
+                },
+                width: '100%'
+              }}
+            >
+              <Table
+                stickyHeader
+                size='small'
+              >
                 <TableHead>
                   <TableRow>
                     {tableHeadTitles.map((headTitle) => (
@@ -197,7 +231,7 @@ export default function App() {
                   {unitCollection.length === 0
                     ? (
                       <TableRow>
-                        <TableCell colSpan={8} >
+                        <TableCell colSpan={8}>
                           <WarningAmberRounded sx={{height: 32, width: 32, mr: 1, verticalAlign: 'middle'}} color='warning'/>
                           <Typography variant='subtitle2' component='strong' sx={{verticalAlign: 'middle'}}>
                             {'Nada por aqui'}
@@ -207,69 +241,69 @@ export default function App() {
                     )
                     : unitCollection.map((unit) => (
                       <TableRow key={unit.id}>
-                        <TableCell>
-                          {unit.name}
-                        </TableCell>
+                      .map((unit) => (
+                        <TableRow key={unit.id} hover>
+                          <TableCell>
+                            {unit.name}
+                          </TableCell>
 
-                        <TableCell
-                          align='center'
-                        >
-                          {`EX+${unit.ex_level} -> ${unit.ex_level+1}`}
-                        </TableCell>
+                          <TableCell>
+                            {`EX+${unit.ex_level} -> ${unit.ex_level+1}`}
+                          </TableCell>
 
-                        <TableCell>
-                          {unit.fragments}
-                        </TableCell>
+                          <TableCell>
+                            {unit.fragments}
+                          </TableCell>
 
-                        <TableCell>
-                          {unit.extra_units}
-                          {unit.extra_units !== 0 && (
-                            <Typography variant="caption" component="small">
-                              {' ('}
-                              {((unit.nva ? 25 : 50) * unit?.extra_units)}
-                              {' frags)'}
-                            </Typography>
-                          )}
-                        </TableCell>
+                          <TableCell>
+                            {unit.extra_units}
+                            {unit.extra_units !== 0 && (
+                              <Typography variant='caption' component='small'>
+                                {' ('}
+                                {((unit.nva ? 25 : 50) * unit?.extra_units)}
+                                {' frags)'}
+                              </Typography>
+                            )}
+                          </TableCell>
 
-                        <TableCell
-                          align='center'
-                        >
-                          {unit.nva ? (
-                            <Checkbox readOnly checked={true} tabIndex={-1} disableRipple/>
-                          ):(
-                            <Checkbox readOnly checked={false} tabIndex={-1} disableRipple/>
-                          )}
-                        </TableCell>
+                          <TableCell>
+                            {unit.nva ? (
+                              <CheckBoxRounded color='primary'/>
+                            ):(
+                              <CheckBoxOutlineBlankRounded sx={{opacity: 0.6}}/>
+                            )}
+                          </TableCell>
 
-                        <TableCell>
-                          {unit.fragment_needed >= 0  ?
-                            unit.fragment_needed :
-                            (Math.abs(unit.fragment_needed) + ' a mais')
-                          }
-                        </TableCell>
+                          <TableCell>
+                            {unit.fragment_needed >= 0  ?
+                              unit.fragment_needed :
+                              (Math.abs(unit.fragment_needed) + ' a mais')
+                            }
+                          </TableCell>
 
-                        <TableCell
-                          align='center'
-                        >
-                          {unit.can_awaken ? (
-                            <Checkbox readOnly color="success" checked={true} tabIndex={-1} disableRipple/>
-                          ):(
-                            <Checkbox readOnly checked={false} tabIndex={-1} disableRipple/>
-                          )}
-                        </TableCell>
+                          <TableCell>
+                            {unit.can_awaken ? (
+                              <CheckBoxRounded color='success'/>
+                            ):(
+                              <CheckBoxOutlineBlankRounded sx={{opacity: 0.6}}/>
+                            )}
+                          </TableCell>
 
-                        <TableCell>
-                          <IconButton onClick={() => handleEditUnit(unit)}>
-                            <EditRounded/>
-                          </IconButton>
+                          <TableCell>
+                            <Tooltip title={`Editar ${unit.name}`} arrow>
+                              <IconButton onClick={() => handleEditUnit(unit)}>
+                                <EditRounded/>
+                              </IconButton>
+                            </Tooltip>
 
-                          <IconButton onDoubleClick={() => deleteSingleUnit(unit.id, unit.name)}>
-                            <DeleteRounded/>
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                            <Tooltip title={`Deletar ${unit.name}`} arrow>
+                              <IconButton onDoubleClick={() => deleteSingleUnit(unit.id, unit.name)}>
+                                <DeleteOutlineRounded color='error'/>
+                              </IconButton>
+                            </Tooltip>
+                          </TableCell>
+                        </TableRow>
+                      ))}
                 </TableBody>
               </Table>
             </TableContainer>

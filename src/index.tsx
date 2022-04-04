@@ -26,6 +26,7 @@ root.render(
           toastClassName='toastifyBody'
           closeButton={false}
           hideProgressBar
+          position='top-center'
         />
       </UnitProvider>
     </ThemeProvider>
