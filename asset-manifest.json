@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/brave_exvius_fragment_calculator/static/css/main.9e06cd67.css",
-    "main.js": "/brave_exvius_fragment_calculator/static/js/main.25665cdd.js",
+    "main.js": "/brave_exvius_fragment_calculator/static/js/main.7091f993.js",
     "static/js/787.b669ff03.chunk.js": "/brave_exvius_fragment_calculator/static/js/787.b669ff03.chunk.js",
     "index.html": "/brave_exvius_fragment_calculator/index.html",
     "main.9e06cd67.css.map": "/brave_exvius_fragment_calculator/static/css/main.9e06cd67.css.map",
-    "main.25665cdd.js.map": "/brave_exvius_fragment_calculator/static/js/main.25665cdd.js.map",
+    "main.7091f993.js.map": "/brave_exvius_fragment_calculator/static/js/main.7091f993.js.map",
     "787.b669ff03.chunk.js.map": "/brave_exvius_fragment_calculator/static/js/787.b669ff03.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9e06cd67.css",
-    "static/js/main.25665cdd.js"
+    "static/js/main.7091f993.js"
   ]
 }
