@@ -1,9 +1,7 @@
 import { AddRounded, DeleteForeverRounded, DeleteRounded, EditRounded } from '@mui/icons-material';
 import { AppBar, Checkbox, Container, Fab, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from '@mui/material';
 import { Suspense, useState } from 'react';
-import { MdInfo } from 'react-icons/md';
 import { AddUnitModal } from './components/AddUnitModal';
-import { TableEmpty } from './components/Table/styles';
 import { useUnit } from './hooks/useUnit';
 
 interface TableHeadTitleProps {
@@ -136,10 +134,7 @@ export default function App() {
 
       
         <Suspense fallback={(
-          <TableEmpty>
-            <MdInfo size={32}/>
-            <h2>Nada por aqui</h2>
-          </TableEmpty>
+          'Carregando'
         )}>
 
           <Paper sx={{borderRadius: 2, overflow: 'hidden'}} variant='outlined'>
