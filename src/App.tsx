@@ -239,8 +239,8 @@ export default function App() {
                         </TableCell>
                       </TableRow>
                     )
-                    : unitCollection.map((unit) => (
-                      <TableRow key={unit.id}>
+                    : unitCollection
+                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((unit) => (
                         <TableRow key={unit.id} hover>
                           <TableCell>
