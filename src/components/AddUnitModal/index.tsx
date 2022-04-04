@@ -1,6 +1,6 @@
 import { CloseRounded, RefreshRounded, SaveRounded } from '@mui/icons-material';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, MenuItem, Switch, TextField } from '@mui/material';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useUnit } from '../../hooks/useUnit';
 
 interface AddUnitModalProps {
@@ -9,27 +9,32 @@ interface AddUnitModalProps {
 }
 
 export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
-  const { addUnit } = useUnit();
+  const { addUnit, unitToManipulate, clearUnitToManipulate } = useUnit();
 
-  const [inputUnitName, setInputUnitName] = useState('');
-  const [inputExLevel, setInputExLevel] = useState(0);
-  const [inputFragments, setInputFragments] = useState(0);
-  const [inputExtraUnits, setInputExtraUnits] = useState(0);
-  const [inputNVAble, setInputNVAble] = useState(false);
- 
   /**
    * 
-   *  Resets fields
+   * Handle Input
    * 
    */
 
-  function resetFields() {
-    setInputUnitName('');
-    setInputExLevel(0);
-    setInputFragments(0);
-    setInputExtraUnits(0);
-    setInputNVAble(false);
-  }
+  const [inputUnitName, setInputUnitName] = useState(unitToManipulate.name);
+  const [inputExLevel, setInputExLevel] = useState(unitToManipulate.ex_level);
+  const [inputFragments, setInputFragments] = useState(unitToManipulate.fragments);
+  const [inputExtraUnits, setInputExtraUnits] = useState(unitToManipulate.extra_units);
+  const [inputNVAble, setInputNVAble] = useState(unitToManipulate.nva);
+ 
+  /**
+    * 
+    * Sync Input with unitToManipulate
+    * 
+    */
+  useEffect(()=>{
+    setInputUnitName(unitToManipulate.name);
+    setInputExLevel(unitToManipulate.ex_level);
+    setInputFragments(unitToManipulate.fragments);
+    setInputExtraUnits(unitToManipulate.extra_units);
+    setInputNVAble(unitToManipulate.nva);
+  }, [unitToManipulate]);
 
   /**
    * 
@@ -40,22 +45,15 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
   function handleSubmit(event: FormEvent)  {
     event.preventDefault();
 
-    if(inputUnitName) {
-      addUnit({
-        name: inputUnitName,
-        ex_level: inputExLevel,
-        fragments: inputFragments,
-        extra_units: inputExtraUnits,
-        nva: inputNVAble,
-      });
+    addUnit({
+      name: inputUnitName,
+      ex_level: inputExLevel,
+      fragments: inputFragments,
+      extra_units: inputExtraUnits,
+      nva: inputNVAble,
+    });
     
-      openCloseFunction();
-      resetFields();
-    } else {
-      const unitNameInput = document.getElementById('AddUnitNameInput');
-      unitNameInput?.toggleAttribute('error');
-      return;
-    } 
+    openCloseFunction();
   }
 
   /**
@@ -66,13 +64,13 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
 
   function handleCancel() {
     openCloseFunction();
-    resetFields();
+    clearUnitToManipulate();
   }
 
   return (
     <Dialog
       open={isOpen}
-      onClose={() => {openCloseFunction(); resetFields();}}
+      onClose={handleCancel}
       maxWidth="xs"
       fullWidth
     >
@@ -101,6 +99,7 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
                 inputProps={{ min: 0 }}
                 value={inputFragments}
                 onChange={(e) => setInputFragments(parseInt(e.target.value))}
+                onFocus={(e) => e.target.select()}
               />
             </Grid>
 
@@ -111,6 +110,7 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
                 inputProps={{ min: 0 }}
                 value={inputExtraUnits}
                 onChange={(e) => setInputExtraUnits(parseInt(e.target.value))}
+                onFocus={(e) => e.target.select()}
               />
             </Grid>
 
@@ -153,7 +153,7 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
 
         <DialogActions>
           <Box sx={{flexGrow: 1}}>
-            <IconButton type='reset' onClick={resetFields}>
+            <IconButton type='reset' onClick={clearUnitToManipulate}>
               <RefreshRounded/>
             </IconButton>
           </Box>
