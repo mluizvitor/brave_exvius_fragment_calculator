@@ -1,5 +1,5 @@
 import { CloseRounded, RefreshRounded, SaveRounded } from '@mui/icons-material';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, MenuItem, Switch, TextField } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, MenuItem, Switch, TextField, Tooltip } from '@mui/material';
 import { FormEvent, useEffect, useState } from 'react';
 import { useUnit } from '../../hooks/useUnit';
 
@@ -81,7 +81,7 @@ export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
     <Dialog
       open={isOpen}
       onClose={handleCancel}
-      maxWidth="xs"
+      maxWidth='sm'
       fullWidth
     >
       <form onSubmit={handleSubmit}>
@@ -90,21 +90,21 @@ export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
         </DialogTitle>
 
         <DialogContent>
-          <Grid container columns={2} spacing={1} sx={{marginTop:0}}>
-            <Grid item xs={2}>
+          <Grid container columns={{xs: 2, sm: 3}} spacing={1} sx={{marginTop:0}}>
+            <Grid item xs={2} order={0}>
               <TextField
-                label="Nome da unidade"
+                label='Nome da unidade'
                 fullWidth
                 value={inputUnitName}
                 onChange={(e) => setInputUnitName(e.target.value)}
                 required
-                id="EditUnitNameInput"
+                id='EditUnitNameInput'
               />
             </Grid>
 
-            <Grid item xs={1}>
+            <Grid item xs={1} order={{xs: 1, sm: 3}}>
               <TextField
-                label="Fragmentos"
+                label='Fragmentos'
                 type='number'
                 inputProps={{ min: 0 }}
                 value={inputFragments}
@@ -113,9 +113,9 @@ export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
               />
             </Grid>
 
-            <Grid item xs={1}>
+            <Grid item xs={1} order={{xs: 2, sm: 4}}>
               <TextField
-                label="Unidades Extra"
+                label='Unidades Extra'
                 type='number'
                 inputProps={{ min: 0 }}
                 value={inputExtraUnits}
@@ -124,7 +124,7 @@ export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
               />
             </Grid>
 
-            <Grid item xs={1}>
+            <Grid item xs={1} order={{xs: 3, sm: 2}}>
               <TextField
                 label='Ex Level'
                 value={inputExLevel}
@@ -144,7 +144,7 @@ export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
               </TextField>
             </Grid>
 
-            <Grid item xs={1}>
+            <Grid item xs={1} order={{xs: 4, sm: 1}}>
               <FormControlLabel control={(
                 <Switch
                   checked={inputNVAble}
@@ -163,13 +163,15 @@ export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
 
         <DialogActions>
           <Box sx={{flexGrow: 1}}>
-            <IconButton type='reset' onClick={resetInputToOriginalData}>
-              <RefreshRounded/>
-            </IconButton>
+            <Tooltip title='Reiniciar campos para os valores originais' arrow>
+              <IconButton type='reset' onClick={resetInputToOriginalData}>
+                <RefreshRounded/>
+              </IconButton>
+            </Tooltip>
           </Box>
           
           <Button
-            variant="outlined"
+            variant='outlined'
             type='button'
             onClick={handleCancel}
             startIcon={(<CloseRounded/>)}
@@ -178,7 +180,7 @@ export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
           </Button>
 
           <Button
-            variant="contained"
+            variant='contained'
             type='submit'
             disableElevation
             startIcon={(<SaveRounded/>)}
