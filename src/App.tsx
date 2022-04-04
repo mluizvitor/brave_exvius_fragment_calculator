@@ -76,6 +76,18 @@ export default function App() {
   const [openAddUnitModal, setOpenAddUnitModal] = useState(false);
   const [openEditUnitModal, setOpenEditUnitModal] = useState(false);
 
+  /**
+   * 
+   * Set pagination config
+   * 
+   */
+  const [page, setPage] = useState(0);
+  const rowsPerPage = 10;
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
   function handleAddUnitModalState() {
     setOpenAddUnitModal(!openAddUnitModal);
   }
@@ -257,6 +269,14 @@ export default function App() {
                 </TableBody>
               </Table>
             </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[]}
+              component='div'
+              count={unitCollection.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+            />
           </Paper>
 
         </Suspense>
