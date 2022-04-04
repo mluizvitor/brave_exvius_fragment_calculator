@@ -1,5 +1,5 @@
-import { CloseRounded, SaveRounded } from '@mui/icons-material';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, MenuItem, Switch, TextField } from '@mui/material';
+import { CloseRounded, RefreshRounded, SaveRounded } from '@mui/icons-material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, MenuItem, Switch, TextField } from '@mui/material';
 import { FormEvent, useState } from 'react';
 import { useUnit } from '../../hooks/useUnit';
 
@@ -152,6 +152,12 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
         </DialogContent>
 
         <DialogActions>
+          <Box sx={{flexGrow: 1}}>
+            <IconButton type='reset' onClick={resetFields}>
+              <RefreshRounded/>
+            </IconButton>
+          </Box>
+
           <Button
             variant="outlined"
             type='button'
