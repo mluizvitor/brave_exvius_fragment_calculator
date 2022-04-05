@@ -54,7 +54,7 @@ export default function App() {
     {
       id: 'actions',
       title: 'Ações',
-      width: 10 *16
+      width: 10 *16,
     }    
   ];
 
@@ -99,18 +99,18 @@ export default function App() {
         position='fixed'
         color='default'
         sx={{
-          alignItems: 'center'
+          alignItems: 'center',
         }}>
         <Toolbar
           sx={{ 
             pl: {
-              xs: 1
+              xs: 1,
             },
             pr: {
-              xs: 1
+              xs: 1,
             },
             width: '100%',
-            maxWidth: 'xl'
+            maxWidth: 'xl',
           }}>
           <Typography variant='h5'
             component='h1'
@@ -125,23 +125,23 @@ export default function App() {
             sx={{
               position: {
                 sm: 'inherit',
-                xs: 'fixed'
+                xs: 'fixed',
               },
               bottom: {
                 sm: 0,
-                xs: 16
+                xs: 16,
               },
               right: {
                 sm: 0,
                 xs: '50%',
               },
               width: {
-                xs: 240
+                xs: 240,
               },
               mr:{
                 sm: 1,
                 xs: (15 / 2) * -1,
-              }
+              },
             }}>
             <AddRounded sx={{mr: 1}}/>
             {'Adicionar Unidade'}
@@ -166,14 +166,14 @@ export default function App() {
           },
           pb: {
             sm: 2,
-            xs: 5
+            xs: 5,
           },
           pl: {
-            xs: 1
+            xs: 1,
           },
           pr: {
-            xs: 1
-          }
+            xs: 1,
+          },
         }}>
         <AddUnitModal
           isOpen={openAddUnitModal}
@@ -186,16 +186,16 @@ export default function App() {
           <Paper
             sx={{
               borderRadius: 2,
-              overflow: 'hidden'
+              overflow: 'hidden',
             }} 
             variant='outlined'>
             <TableContainer
               sx={{
                 maxHeight: {
                   sm: 'calc(100vh - 88px - 32px - 52px - 2px)',
-                  xs: 'calc(100vh - 72px - 80px - 52px - 2px)'
+                  xs: 'calc(100vh - 72px - 80px - 52px - 2px)',
                 },
-                width: '100%'
+                width: '100%',
               }}>
               <Table
                 stickyHeader
@@ -208,7 +208,7 @@ export default function App() {
                         style={{
                           width: (headTitle.width ? Math.ceil(headTitle.width * 1.5) : 'auto'),
                           maxWidth: (headTitle.width ? Math.ceil(headTitle.width * 1.5) : 'auto'),
-                          minWidth: (headTitle.width || 192)
+                          minWidth: (headTitle.width || 192),
                         }}>
                         {headTitle.title}
                       </StyledTableHeaderCell>

@@ -45,7 +45,7 @@
             "always"
         ],
         "react/react-in-jsx-scope": "off",
-        "react/jsx-max-props-per-line": [1, { "maximum": { "single": 2, "multi": 1 } }],
+        "react/jsx-max-props-per-line": [1, { "maximum": { "single": 1, "multi": 1 } }],
 
         "no-case-declarations": "off",
         "function-paren-newline": ["error", "multiline-arguments"],
@@ -57,6 +57,13 @@
             }
         ],
         "no-multiple-empty-lines": "error",
-        "react/jsx-curly-brace-presence": [1, {"children": "always", "props": "never", "propElementValues": "always"}]
+        "react/jsx-curly-brace-presence": [1, {"children": "always", "props": "never", "propElementValues": "always"}],
+        "comma-dangle": ["error", {
+            "arrays": "never",
+            "objects": "always-multiline",
+            "imports": "never",
+            "exports": "never",
+            "functions": "never"
+        }]
     }
 }

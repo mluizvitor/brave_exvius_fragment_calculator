@@ -30,7 +30,7 @@ root.render(
         />
       </UnitProvider>
     </ThemeProvider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
 
 reportWebVitals();

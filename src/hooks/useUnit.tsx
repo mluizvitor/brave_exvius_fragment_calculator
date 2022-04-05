@@ -36,7 +36,7 @@ export function UnitProvider({children}: UnitProviderProps) {
 
       savedDataToJson = savedDataToJson.map((data) => {
         return { ...data,
-          can_awaken: data.can_awaken || data.fragment_needed <= 0 
+          can_awaken: data.can_awaken || data.fragment_needed <= 0, 
         };
       });
       return savedDataToJson;
@@ -59,7 +59,7 @@ export function UnitProvider({children}: UnitProviderProps) {
     extra_units: 0,
     nva: false,
     fragment_needed: 0,
-    can_awaken: false
+    can_awaken: false,
   });
 
   /**
@@ -228,7 +228,7 @@ export function UnitProvider({children}: UnitProviderProps) {
     editUnit({
       ...newUnitData,
       ex_level: newUnitData.ex_level + 1,
-      extra_units: 0
+      extra_units: 0,
     });
   }
 
@@ -280,7 +280,7 @@ export function UnitProvider({children}: UnitProviderProps) {
       extra_units: 0,
       nva: false,
       fragment_needed: 0,
-      can_awaken: false
+      can_awaken: false,
     });
   }
 
@@ -315,7 +315,7 @@ export function UnitProvider({children}: UnitProviderProps) {
       deleteAllUnits,
       unitToManipulate,
       handleUnitToManipulate,
-      clearUnitToManipulate
+      clearUnitToManipulate,
     }}>
       { children }
     </UnitContext.Provider>
