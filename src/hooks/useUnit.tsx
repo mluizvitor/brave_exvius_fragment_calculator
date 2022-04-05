@@ -5,12 +5,13 @@ interface UnitContextData {
   unitCollection: Unit[];
   
   addUnit: (unitInput: UnitInputProps) => void;
-  editUnit: (unitInput: UnitInputProps) => void;
+  editUnit: (unitData: Unit) => void;
+  awakenUnit: (unitData: Unit) => void;
   deleteSingleUnit: (unitId: string, unitName: string) => void;
   deleteAllUnits: () => void;
   
   unitToManipulate: Unit;
-  handleUnitToManipulate: (unitEntry: Unit) => void;
+  handleUnitToManipulate: (unitData: Unit) => void;
   clearUnitToManipulate: () => void;
 }
 
@@ -88,21 +89,25 @@ export function UnitProvider({children}: UnitProviderProps) {
   function fragmentNeededCalculator(exLevel: number, fragments: number, extraUnits: number, nva: boolean) {
     if (nva) {
       switch (exLevel) {
+        case 0:
+          return 50 - fragments - (extraUnits * 25);
         case 1:
           return 75 - fragments - (extraUnits * 25);
         case 2:
           return 100 - fragments - (extraUnits * 25);
         default:
-          return 50 - fragments - (extraUnits * 25);
+          return 9999;
       }
     } else {
       switch (exLevel) {
+        case 0:
+          return 50 - fragments - (extraUnits * 50);
         case 1:
           return 100 - fragments - (extraUnits * 50);
         case 2:
           return 200 - fragments - (extraUnits * 50);
         default:
-          return 50 - fragments - (extraUnits * 50);
+          return 9999;
       }
     }
   }
@@ -149,31 +154,32 @@ export function UnitProvider({children}: UnitProviderProps) {
    * Edit unit
    * 
    */
-  function editUnit(unitInput: UnitInputProps) {
+  function editUnit(unitData: Unit) {
+
     try {
-      if (unitInput.name.length === 0) {
+      if (unitData.name.length === 0) {
         throw new Error();
       }
 
       const newUnitCollection = [...unitCollection];
-      const unitToEditIndex = newUnitCollection.findIndex((unit) => unit.id === unitToManipulate.id);
+      const unitToEditIndex = newUnitCollection.findIndex((unit) => unit.id === unitData.id);
 
       const fragmentsNeeded = fragmentNeededCalculator(
-        unitInput.ex_level,
-        unitInput.fragments,
-        unitInput.extra_units,
-        unitInput.nva
+        unitData.ex_level,
+        unitData.fragments,
+        unitData.extra_units,
+        unitData.nva
       );
       
       newUnitCollection[unitToEditIndex] = {
-        ...unitToManipulate,
-        name: unitInput.name,
-        ex_level: unitInput.ex_level,
-        fragments: unitInput.fragments,
-        extra_units: unitInput.extra_units,
-        nva: unitInput.nva,
+        ...unitData,
+        name: unitData.name,
+        ex_level: unitData.ex_level,
+        fragments: unitData.fragments,
+        extra_units: unitData.extra_units,
+        nva: unitData.nva,
         fragment_needed: fragmentsNeeded,
-        can_awaken: fragmentsNeeded <= 0,
+        can_awaken: fragmentsNeeded <= 0 && unitData.ex_level < 3,
       };
 
       setUnitCollection(newUnitCollection);
@@ -182,6 +188,48 @@ export function UnitProvider({children}: UnitProviderProps) {
     } catch (err) {
       toast.error('Nome da unidade deve ser preenchido', {icon: '🙅'});
     }
+  }
+
+  /**
+   * 
+   * Awaken Unit
+   * 
+   */
+
+  function awakenUnit(unitData: Unit) {
+    const newUnitData = unitData;
+    
+    if(newUnitData.nva) {
+      switch (newUnitData.ex_level) {
+        case 0:
+          newUnitData.fragments = (newUnitData.extra_units * 25 + newUnitData.fragments) - 50;
+          break;
+        case 1:
+          newUnitData.fragments = (newUnitData.extra_units * 25 + newUnitData.fragments) - 75;
+          break;
+        case 2:
+          newUnitData.fragments = (newUnitData.extra_units * 25 + newUnitData.fragments) - 100;
+          break;
+      }
+    } else {
+      switch (newUnitData.ex_level) {
+        case 0:
+          newUnitData.fragments = (newUnitData.extra_units * 50 + newUnitData.fragments) - 50;
+          break;
+        case 1:
+          newUnitData.fragments = (newUnitData.extra_units * 50 + newUnitData.fragments) - 100;
+          break;
+        case 2:
+          newUnitData.fragments = (newUnitData.extra_units * 50 + newUnitData.fragments) - 200;
+          break;
+      }
+    }
+
+    editUnit({
+      ...newUnitData,
+      ex_level: newUnitData.ex_level + 1,
+      extra_units: 0
+    });
   }
 
   /**
@@ -213,8 +261,8 @@ export function UnitProvider({children}: UnitProviderProps) {
    * 
    */
 
-  function handleUnitToManipulate(unitEntry: Unit) {
-    setUnitToManipulate(unitEntry);
+  function handleUnitToManipulate(unitData: Unit) {
+    setUnitToManipulate(unitData);
   }
 
   /**
@@ -262,6 +310,7 @@ export function UnitProvider({children}: UnitProviderProps) {
       unitCollection,
       addUnit,
       editUnit,
+      awakenUnit,
       deleteSingleUnit,
       deleteAllUnits,
       unitToManipulate,

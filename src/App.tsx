@@ -1,4 +1,4 @@
-import { AddRounded, CheckBoxOutlineBlankRounded, CheckBoxRounded, DeleteForeverRounded, DeleteOutlineRounded, EditRounded, WarningAmberRounded } from '@mui/icons-material';
+import { AddRounded, CheckBoxOutlineBlankRounded, CheckBoxRounded, DeleteForeverRounded, DeleteOutlineRounded, EditRounded, StarRounded, WarningAmberRounded } from '@mui/icons-material';
 import { AppBar, Container, Fab, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Toolbar, Tooltip, Typography } from '@mui/material';
 import { Suspense, useState } from 'react';
 import { AddUnitModal } from './components/AddUnitModal';
@@ -54,11 +54,11 @@ export default function App() {
     {
       id: 'actions',
       title: 'Ações',
-      width: 7 *16
+      width: 10 *16
     }    
   ];
 
-  const { unitCollection, deleteSingleUnit, deleteAllUnits, handleUnitToManipulate } = useUnit();
+  const { unitCollection, awakenUnit, deleteSingleUnit, deleteAllUnits, handleUnitToManipulate } = useUnit();
 
   const [openAddUnitModal, setOpenAddUnitModal] = useState(false);
   const [openEditUnitModal, setOpenEditUnitModal] = useState(false);
@@ -88,6 +88,11 @@ export default function App() {
     handleUnitToManipulate(unitData);
   }
 
+  function handleAwakenUnit(unitData: Unit) {
+    handleUnitToManipulate(unitData);
+    awakenUnit(unitData);
+  }
+
   return (
     <>
       <AppBar
@@ -95,8 +100,7 @@ export default function App() {
         color='default'
         sx={{
           alignItems: 'center'
-        }}
-      >
+        }}>
         <Toolbar
           sx={{ 
             pl: {
@@ -107,13 +111,13 @@ export default function App() {
             },
             width: '100%',
             maxWidth: 'xl'
-          }}
-        >
-          <Typography variant='h5' component='h1' sx={{flexGrow: 1}}>
+          }}>
+          <Typography variant='h5'
+            component='h1'
+            sx={{flexGrow: 1}}>
             {'FFBE Fragments'}
           </Typography>
 
-          {/* <Stack spacing={1} direction='row' > */}
           <Fab
             color='primary'
             onClick={handleAddUnitModalState}
@@ -138,54 +142,53 @@ export default function App() {
                 sm: 1,
                 xs: (15 / 2) * -1,
               }
-            }}
-          >
+            }}>
             <AddRounded sx={{mr: 1}}/>
             {'Adicionar Unidade'}
           </Fab>
 
-          <Tooltip title='Deletar tudo' arrow>
+          <Tooltip title='Deletar tudo'
+            arrow>
             <IconButton
               color='warning'
-              onDoubleClick={deleteAllUnits}
-            >
+              onDoubleClick={deleteAllUnits}>
               <DeleteForeverRounded/>
             </IconButton>
           </Tooltip>
         </Toolbar>
       </AppBar>
 
-      <Container maxWidth='xl' sx={{
-        pt: {
-          sm: 5.5,
-          xs: 4.5,
-        },
-        pb: {
-          sm: 2,
-          xs: 5
-        },
-        pl: {
-          xs: 1
-        },
-        pr: {
-          xs: 1
-        }
-      }}
-      >
-        <AddUnitModal isOpen={openAddUnitModal} openCloseFunction={handleAddUnitModalState}/>
-        <EditUnitModal isOpen={openEditUnitModal} openCloseFunction={handleEditUnitModalState}/>
+      <Container maxWidth='xl'
+        sx={{
+          pt: {
+            sm: 5.5,
+            xs: 4.5,
+          },
+          pb: {
+            sm: 2,
+            xs: 5
+          },
+          pl: {
+            xs: 1
+          },
+          pr: {
+            xs: 1
+          }
+        }}>
+        <AddUnitModal
+          isOpen={openAddUnitModal}
+          openCloseFunction={handleAddUnitModalState}/>
+        <EditUnitModal
+          isOpen={openEditUnitModal}
+          openCloseFunction={handleEditUnitModalState}/>
 
-        <Suspense fallback={(
-          'Carregando'
-        )}>
-
+        <Suspense fallback='Carregando'>
           <Paper
             sx={{
               borderRadius: 2,
               overflow: 'hidden'
             }} 
-            variant='outlined'
-          >
+            variant='outlined'>
             <TableContainer
               sx={{
                 maxHeight: {
@@ -193,12 +196,10 @@ export default function App() {
                   xs: 'calc(100vh - 72px - 80px - 52px - 2px)'
                 },
                 width: '100%'
-              }}
-            >
+              }}>
               <Table
                 stickyHeader
-                size='small'
-              >
+                size='small'>
                 <TableHead>
                   <TableRow>
                     {tableHeadTitles.map((headTitle) => (
@@ -208,8 +209,7 @@ export default function App() {
                           width: (headTitle.width ? Math.ceil(headTitle.width * 1.5) : 'auto'),
                           maxWidth: (headTitle.width ? Math.ceil(headTitle.width * 1.5) : 'auto'),
                           minWidth: (headTitle.width || 192)
-                        }}
-                      >
+                        }}>
                         {headTitle.title}
                       </StyledTableHeaderCell>
                     ))}
@@ -221,8 +221,11 @@ export default function App() {
                     ? (
                       <TableRow>
                         <TableCell colSpan={8}>
-                          <WarningAmberRounded sx={{height: 32, width: 32, mr: 1, verticalAlign: 'middle'}} color='warning'/>
-                          <Typography variant='subtitle2' component='strong' sx={{verticalAlign: 'middle'}}>
+                          <WarningAmberRounded sx={{height: 32, width: 32, mr: 1, verticalAlign: 'middle'}}
+                            color='warning'/>
+                          <Typography variant='subtitle2'
+                            component='strong'
+                            sx={{verticalAlign: 'middle'}}>
                             {'Nada por aqui'}
                           </Typography>
                         </TableCell>
@@ -231,13 +234,17 @@ export default function App() {
                     : unitCollection
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((unit) => (
-                        <TableRow key={unit.id} hover>
+                        <TableRow key={unit.id}
+                          hover>
                           <TableCell>
                             {unit.name}
                           </TableCell>
 
                           <TableCell>
-                            {`EX+${unit.ex_level} -> ${unit.ex_level+1}`}
+                            {unit.ex_level < 3 ?
+                              `EX+${unit.ex_level} -> ${unit.ex_level+1}` :
+                              'Ex+3'
+                            }
                           </TableCell>
 
                           <TableCell>
@@ -247,7 +254,8 @@ export default function App() {
                           <TableCell>
                             {unit.extra_units}
                             {unit.extra_units !== 0 && (
-                              <Typography variant='caption' component='small'>
+                              <Typography variant='caption'
+                                component='small'>
                                 {' ('}
                                 {((unit.nva ? 25 : 50) * unit?.extra_units)}
                                 {' frags)'}
@@ -264,9 +272,12 @@ export default function App() {
                           </TableCell>
 
                           <TableCell>
-                            {unit.fragment_needed >= 0  ?
-                              unit.fragment_needed :
-                              (Math.abs(unit.fragment_needed) + ' a mais')
+                            {
+                              unit.fragment_needed === 9999 ?
+                                '' :
+                                unit.fragment_needed >= 0  ?
+                                  unit.fragment_needed :
+                                  (Math.abs(unit.fragment_needed) + ' a mais')
                             }
                           </TableCell>
 
@@ -279,15 +290,29 @@ export default function App() {
                           </TableCell>
 
                           <TableCell>
-                            <Tooltip title={`Editar ${unit.name}`} arrow>
+                            <Tooltip title={`Editar ${unit.name}`}
+                              arrow>
                               <IconButton onClick={() => handleEditUnit(unit)}>
                                 <EditRounded/>
                               </IconButton>
                             </Tooltip>
 
-                            <Tooltip title={`Deletar ${unit.name}`} arrow>
-                              <IconButton onDoubleClick={() => deleteSingleUnit(unit.id, unit.name)}>
-                                <DeleteOutlineRounded color='error'/>
+                            <Tooltip title={`Despertar ${unit.name}`}>
+                              <span>
+                                <IconButton
+                                  color='warning'
+                                  onClick={() => handleAwakenUnit(unit)}
+                                  disabled={unit.ex_level >= 3 || unit.fragment_needed > 0}>
+                                  <StarRounded/>
+                                </IconButton>
+                              </span>
+                            </Tooltip>
+
+                            <Tooltip title={`Deletar ${unit.name}`}
+                              arrow>
+                              <IconButton color='error'
+                                onDoubleClick={() => deleteSingleUnit(unit.id, unit.name)}>
+                                <DeleteOutlineRounded/>
                               </IconButton>
                             </Tooltip>
                           </TableCell>
@@ -302,8 +327,7 @@ export default function App() {
               count={unitCollection.length}
               rowsPerPage={rowsPerPage}
               page={page}
-              onPageChange={handleChangePage}
-            />
+              onPageChange={handleChangePage}/>
           </Paper>
 
         </Suspense>

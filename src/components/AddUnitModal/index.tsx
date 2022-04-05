@@ -72,16 +72,20 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
       open={isOpen}
       onClose={handleCancel}
       maxWidth='sm'
-      fullWidth
-    >
+      fullWidth>
       <form onSubmit={handleSubmit}>
         <DialogTitle>
           {'Adicionar Nova Unidade'}
         </DialogTitle>
 
         <DialogContent>
-          <Grid container columns={{xs: 2, sm: 3}} spacing={1} sx={{pt: 0.5}}>
-            <Grid item xs={2} order={0}>
+          <Grid container
+            columns={{xs: 2, sm: 3}}
+            spacing={1}
+            sx={{pt: 0.5}}>
+            <Grid item
+              xs={2}
+              order={0}>
               <TextField
                 label='Nome da unidade'
                 fullWidth
@@ -94,7 +98,9 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
               />
             </Grid>
 
-            <Grid item xs={1} order={{xs: 1, sm: 3}}>
+            <Grid item
+              xs={1}
+              order={{xs: 1, sm: 3}}>
               <TextField
                 label='Fragmentos'
                 type='number'
@@ -105,7 +111,9 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
               />
             </Grid>
 
-            <Grid item xs={1} order={{xs: 2, sm: 4}}>
+            <Grid item
+              xs={1}
+              order={{xs: 2, sm: 4}}>
               <TextField
                 label='Unidades Extra'
                 type='number'
@@ -116,7 +124,9 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
               />
             </Grid>
 
-            <Grid item xs={1} order={{xs: 3, sm: 2}}>
+            <Grid item
+              xs={1}
+              order={{xs: 3, sm: 2}}>
               <TextField
                 label='Ex Level'
                 value={inputExLevel}
@@ -133,10 +143,15 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
                 <MenuItem value={2}>
                   {'Ex+2'}
                 </MenuItem>
+                <MenuItem value={3}>
+                  {'Ex+3'}
+                </MenuItem>
               </TextField>
             </Grid>
 
-            <Grid item xs={1} order={{xs: 4, sm: 1}}>
+            <Grid item
+              xs={1}
+              order={{xs: 4, sm: 1}}>
               <FormControlLabel control={(
                 <Switch
                   checked={inputNVAble}
@@ -147,16 +162,14 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
             </Grid>
           </Grid>
 
-          <Grid item xs={1}>
-
-          </Grid>
-
         </DialogContent>
 
         <DialogActions>
           <Box sx={{flexGrow: 1}}>
-            <Tooltip title='Reiniciar campos' arrow>
-              <IconButton type='reset' onClick={clearUnitToManipulate}>
+            <Tooltip title='Reiniciar campos'
+              arrow>
+              <IconButton type='reset'
+                onClick={clearUnitToManipulate}>
                 <RefreshRounded/>
               </IconButton>
             </Tooltip>
