@@ -3,12 +3,7 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormCon
 import { FormEvent, useEffect, useState } from 'react';
 import { useUnit } from '../../hooks/useUnit';
 
-interface AddUnitModalProps {
-  isOpen: boolean;
-  openCloseFunction: () => void;
-}
-
-export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
+export function AddUnitModal({modalState, modalStateHandler}: ModalProps) {
   const { addUnit, unitToManipulate, clearUnitToManipulate } = useUnit();
 
   /**
@@ -53,7 +48,7 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
       nva: inputNVAble,
     });
     
-    openCloseFunction();
+    modalStateHandler();
   }
 
   /**
@@ -63,13 +58,13 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
    */
 
   function handleCancel() {
-    openCloseFunction();
+    modalStateHandler();
     clearUnitToManipulate();
   }
 
   return (
     <Dialog
-      open={isOpen}
+      open={modalState}
       onClose={handleCancel}
       maxWidth='sm'
       fullWidth>

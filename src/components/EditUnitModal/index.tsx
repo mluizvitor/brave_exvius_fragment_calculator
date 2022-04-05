@@ -3,12 +3,7 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormCon
 import { FormEvent, useEffect, useState } from 'react';
 import { useUnit } from '../../hooks/useUnit';
 
-interface EditUnitModalProps {
-  isOpen: boolean;
-  openCloseFunction: () => void;
-}
-
-export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
+export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
   const { editUnit, unitToManipulate, clearUnitToManipulate } = useUnit();
 
   /**
@@ -43,7 +38,7 @@ export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
 
     editUnit(newData);
 
-    openCloseFunction();
+    modalStateHandler();
   }
 
   /**
@@ -53,7 +48,7 @@ export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
    */
 
   function handleCancel() {
-    openCloseFunction();
+    modalStateHandler();
     clearUnitToManipulate();
   }
 
@@ -82,7 +77,7 @@ export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
 
   return (
     <Dialog
-      open={isOpen}
+      open={modalState}
       onClose={handleCancel}
       maxWidth='sm'
       fullWidth>
