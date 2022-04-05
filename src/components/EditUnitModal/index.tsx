@@ -1,7 +1,8 @@
-import { CloseRounded, RefreshRounded, SaveRounded } from '@mui/icons-material';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Grid, IconButton, MenuItem, Switch, TextField, Tooltip } from '@mui/material';
+import { CloseRounded, EditRounded, RefreshRounded, SaveRounded } from '@mui/icons-material';
+import { Box, Button, Dialog, DialogActions, DialogContent, FormControlLabel, Grid, IconButton, MenuItem, Switch, TextField, Tooltip } from '@mui/material';
 import { FormEvent, useEffect, useState } from 'react';
 import { useUnit } from '../../hooks/useUnit';
+import { StyledDrialogTitle } from '../StyledDrialogTitle';
 
 export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
   const { editUnit, unitToManipulate, clearUnitToManipulate } = useUnit();
@@ -82,15 +83,16 @@ export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
       maxWidth='sm'
       fullWidth>
       <form onSubmit={handleSubmit}>
-        <DialogTitle>
-          {'Editar Unidade'}
-        </DialogTitle>
 
-        <DialogContent>
+        <StyledDrialogTitle
+          icon={<EditRounded/>}
+          title='Editar Unidade'
+        />
+
+        <DialogContent dividers>
           <Grid container
             columns={{xs: 2}}
-            spacing={1}
-            sx={{marginTop:0}}>
+            spacing={1}>
             <Grid item
               xs={2}>
               <TextField
@@ -181,8 +183,7 @@ export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
             variant='outlined'
             type='button'
             onClick={handleCancel}
-            startIcon={(<CloseRounded/>)}
-          >
+            startIcon={(<CloseRounded/>)}>
             {'Cancelar'}
           </Button>
 
