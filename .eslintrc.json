@@ -36,13 +36,27 @@
             "error",
             "single"
         ],
+        "jsx-quotes": [
+            "error",
+            "prefer-single"
+        ],
         "semi": [
             "error",
             "always"
         ],
         "react/react-in-jsx-scope": "off",
+        "react/jsx-max-props-per-line": [1, { "maximum": { "single": 2, "multi": 1 } }],
+
         "no-case-declarations": "off",
         "function-paren-newline": ["error", "multiline-arguments"],
-        "brace-style": ["error", "1tbs", {"allowSingleLine": true}]
+        "brace-style": ["error", "1tbs", {"allowSingleLine": true}],
+        "react/self-closing-comp": [
+            "error", {
+                "component": true,
+                "html": true
+            }
+        ],
+        "no-multiple-empty-lines": "error",
+        "react/jsx-curly-brace-presence": [1, {"children": "always", "props": "never", "propElementValues": "always"}]
     }
 }
