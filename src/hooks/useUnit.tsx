@@ -272,16 +272,18 @@ export function UnitProvider({children}: UnitProviderProps) {
    */
 
   function clearUnitToManipulate() {
-    setUnitToManipulate({
-      id: '',
-      name: '',
-      ex_level: 0,
-      fragments: 0,
-      extra_units: 0,
-      nva: false,
-      fragment_needed: 0,
-      can_awaken: false,
-    });
+    setTimeout(() => {
+      setUnitToManipulate({
+        id: '',
+        name: '',
+        ex_level: 0,
+        fragments: 0,
+        extra_units: 0,
+        nva: false,
+        fragment_needed: 0,
+        can_awaken: false,
+      });
+    }, 500);
   }
 
   /***

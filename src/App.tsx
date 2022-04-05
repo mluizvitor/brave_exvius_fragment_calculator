@@ -2,6 +2,8 @@ import { AddRounded, CheckBoxOutlineBlankRounded, CheckBoxRounded, DeleteForever
 import { AppBar, Container, Fab, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Toolbar, Tooltip, Typography } from '@mui/material';
 import { Suspense, useState } from 'react';
 import { AddUnitModal } from './components/AddUnitModal';
+import { DeleteAllModal } from './components/DeleteAllModal';
+import { DeleteModal } from './components/DeleteModal';
 import { EditUnitModal } from './components/EditUnitModal';
 import { StyledTableHeaderCell } from './components/StyledTableHeadCell/styles';
 import { useUnit } from './hooks/useUnit';
@@ -58,10 +60,12 @@ export default function App() {
     }    
   ];
 
-  const { unitCollection, awakenUnit, deleteSingleUnit, deleteAllUnits, handleUnitToManipulate } = useUnit();
+  const { unitCollection, awakenUnit, handleUnitToManipulate } = useUnit();
 
   const [openAddUnitModal, setOpenAddUnitModal] = useState(false);
   const [openEditUnitModal, setOpenEditUnitModal] = useState(false);
+  const [openDeleteUnitModal, setOpenDeleteUnitModal] = useState(false);
+  const [openDeleteAllModal, setOpenDeleteAllModal] = useState(false);
 
   /**
    * 
@@ -83,6 +87,14 @@ export default function App() {
     setOpenEditUnitModal(!openEditUnitModal);
   }
 
+  function handleDeleteUnitModalState() {
+    setOpenDeleteUnitModal(!openDeleteUnitModal);
+  }
+
+  function handleDeleteAllModalState() {
+    setOpenDeleteAllModal(!openDeleteAllModal);
+  }
+
   function handleEditUnit(unitData: Unit){
     handleEditUnitModalState();
     handleUnitToManipulate(unitData);
@@ -92,6 +104,46 @@ export default function App() {
     handleUnitToManipulate(unitData);
     awakenUnit(unitData);
   }
+
+  function handleDeleteUnit(unitData: Unit) {
+    handleUnitToManipulate(unitData);
+    handleDeleteUnitModalState();
+  }
+
+  function handleDeleteAllUnits() {
+    handleDeleteAllModalState();
+  }
+
+  const containerStyles = {
+    pt: {
+      sm: 5.5,
+      xs: 4.5,
+    },
+    pb: {
+      sm: 2,
+      xs: 5,
+    },
+    pl: {
+      xs: 1,
+    },
+    pr: {
+      xs: 1,
+    },
+  };
+
+  const fabStyles = {
+    position: {
+      sm: 'inherit',
+      xs: 'fixed',
+    },
+    bottom: {
+      sm: 0,
+      xs: 16,
+    },
+    right: {
+      xs: 16,
+    },
+  };
 
   return (
     <>
@@ -122,65 +174,27 @@ export default function App() {
             color='primary'
             onClick={handleAddUnitModalState}
             variant='extended'
-            sx={{
-              position: {
-                sm: 'inherit',
-                xs: 'fixed',
-              },
-              bottom: {
-                sm: 0,
-                xs: 16,
-              },
-              right: {
-                sm: 0,
-                xs: '50%',
-              },
-              width: {
-                xs: 240,
-              },
-              mr:{
-                sm: 1,
-                xs: (15 / 2) * -1,
-              },
-            }}>
+            sx={fabStyles}>
             <AddRounded sx={{mr: 1}}/>
             {'Adicionar Unidade'}
           </Fab>
 
           <Tooltip title='Deletar tudo'
             arrow>
-            <IconButton
-              color='warning'
-              onDoubleClick={deleteAllUnits}>
-              <DeleteForeverRounded/>
-            </IconButton>
+            <span>
+              <IconButton
+                disabled={unitCollection.length === 0}
+                color='warning'
+                onClick={handleDeleteAllUnits}>
+                <DeleteForeverRounded/>
+              </IconButton>
+            </span>
           </Tooltip>
         </Toolbar>
       </AppBar>
 
       <Container maxWidth='xl'
-        sx={{
-          pt: {
-            sm: 5.5,
-            xs: 4.5,
-          },
-          pb: {
-            sm: 2,
-            xs: 5,
-          },
-          pl: {
-            xs: 1,
-          },
-          pr: {
-            xs: 1,
-          },
-        }}>
-        <AddUnitModal
-          isOpen={openAddUnitModal}
-          openCloseFunction={handleAddUnitModalState}/>
-        <EditUnitModal
-          isOpen={openEditUnitModal}
-          openCloseFunction={handleEditUnitModalState}/>
+        sx={containerStyles}>
 
         <Suspense fallback='Carregando'>
           <Paper
@@ -311,7 +325,7 @@ export default function App() {
                             <Tooltip title={`Deletar ${unit.name}`}
                               arrow>
                               <IconButton color='error'
-                                onDoubleClick={() => deleteSingleUnit(unit.id, unit.name)}>
+                                onClick={() => handleDeleteUnit(unit)}>
                                 <DeleteOutlineRounded/>
                               </IconButton>
                             </Tooltip>
@@ -333,6 +347,19 @@ export default function App() {
         </Suspense>
 
       </Container>
+
+      <AddUnitModal
+        modalState={openAddUnitModal}
+        modalStateHandler={handleAddUnitModalState}/>
+      <EditUnitModal
+        modalState={openEditUnitModal}
+        modalStateHandler={handleEditUnitModalState}/>
+      <DeleteModal
+        modalState={openDeleteUnitModal}
+        modalStateHandler={handleDeleteUnitModalState}/>
+      <DeleteAllModal
+        modalState={openDeleteAllModal}
+        modalStateHandler={handleDeleteAllModalState}/>
     </>
   );
 }
