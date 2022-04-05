@@ -93,12 +93,11 @@ export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
 
         <DialogContent>
           <Grid container
-            columns={{xs: 2, sm: 3}}
+            columns={{xs: 2}}
             spacing={1}
             sx={{marginTop:0}}>
             <Grid item
-              xs={2}
-              order={0}>
+              xs={2}>
               <TextField
                 label='Nome da unidade'
                 fullWidth
@@ -112,8 +111,7 @@ export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
             </Grid>
 
             <Grid item
-              xs={1}
-              order={{xs: 1, sm: 3}}>
+              xs={1}>
               <TextField
                 label='Fragmentos'
                 type='number'
@@ -125,8 +123,7 @@ export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
             </Grid>
 
             <Grid item
-              xs={1}
-              order={{xs: 2, sm: 4}}>
+              xs={1}>
               <TextField
                 label='Unidades Extra'
                 type='number'
@@ -138,8 +135,7 @@ export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
             </Grid>
 
             <Grid item
-              xs={1}
-              order={{xs: 3, sm: 2}}>
+              xs={1}>
               <TextField
                 label='Ex Level'
                 value={inputExLevel}
@@ -163,8 +159,7 @@ export function EditUnitModal({isOpen, openCloseFunction}: EditUnitModalProps) {
             </Grid>
 
             <Grid item
-              xs={1}
-              order={{xs: 4, sm: 1}}>
+              xs={1}>
               <FormControlLabel control={(
                 <Switch
                   checked={inputNVAble}

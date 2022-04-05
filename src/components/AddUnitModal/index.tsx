@@ -80,12 +80,11 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
 
         <DialogContent>
           <Grid container
-            columns={{xs: 2, sm: 3}}
+            columns={{xs: 2}}
             spacing={1}
             sx={{pt: 0.5}}>
             <Grid item
-              xs={2}
-              order={0}>
+              xs={2}>
               <TextField
                 label='Nome da unidade'
                 fullWidth
@@ -99,8 +98,7 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
             </Grid>
 
             <Grid item
-              xs={1}
-              order={{xs: 1, sm: 3}}>
+              xs={1}>
               <TextField
                 label='Fragmentos'
                 type='number'
@@ -112,8 +110,7 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
             </Grid>
 
             <Grid item
-              xs={1}
-              order={{xs: 2, sm: 4}}>
+              xs={1}>
               <TextField
                 label='Unidades Extra'
                 type='number'
@@ -125,15 +122,13 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
             </Grid>
 
             <Grid item
-              xs={1}
-              order={{xs: 3, sm: 2}}>
+              xs={1}>
               <TextField
                 label='Ex Level'
                 value={inputExLevel}
                 onChange={(e) => setInputExLevel(parseInt(e.target.value))}
                 select
-                fullWidth
-              >
+                fullWidth>
                 <MenuItem value={0}>
                   {'Ex+0'}
                 </MenuItem>
@@ -150,13 +145,11 @@ export function AddUnitModal({isOpen, openCloseFunction}: AddUnitModalProps) {
             </Grid>
 
             <Grid item
-              xs={1}
-              order={{xs: 4, sm: 1}}>
+              xs={1}>
               <FormControlLabel control={(
                 <Switch
                   checked={inputNVAble}
-                  onChange={() => setInputNVAble(!inputNVAble)}
-                />
+                  onChange={() => setInputNVAble(!inputNVAble)}/>
               )}
               label='NVA' />
             </Grid>
