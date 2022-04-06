@@ -13,7 +13,7 @@ interface TableHeadTitleProps {
   id: string;
   title: string,
   align?: 'center' | 'left' | 'right';
-  width?: number;
+  width?: number | string;
 }
 
 export default function App() {
@@ -22,41 +22,42 @@ export default function App() {
       id: 'name',
       title: 'Nome da Unidade',
       align: 'left',
+      width: '100%',
     },
     {
       id: 'ex_level',
       title: 'EX Level',
-      width: 6.5 * 16,
+      width: 8.5 * 16,
     },
     {
       id: 'fragments',
       title: 'Fragmentos',
-      width: 6.5 * 16,
+      width: 8.5 * 16,
     },
     {
       id: 'extra_units',
       title: 'Unidades Extra',
-      width: 6.5 * 16,
+      width: 8.5 * 16,
     },
     {
       id: 'nva',
       title: 'NVA',
-      width: 6.5 * 16,
+      width: 8.5 * 16,
     },
     {
       id: 'fragment_needed',
       title: 'Fragmentos necessários',
-      width: 6.5 * 16,
+      width: 8.5 * 16,
     },
     {
       id: 'can_awaken',
       title: 'Pode ser despertado',
-      width: 6.5 * 16,
+      width: 8.5 * 16,
     },
     {
       id: 'actions',
       title: 'Ações',
-      width: 10 *16,
+      width: 9.5 * 16,
     }    
   ];
 
@@ -124,9 +125,13 @@ export default function App() {
       xs: 5,
     },
     pl: {
+      md: 4,
+      sm: 2,
       xs: 1,
     },
     pr: {
+      md: 4,
+      sm: 2,
       xs: 1,
     },
   };
@@ -156,9 +161,13 @@ export default function App() {
         <Toolbar
           sx={{ 
             pl: {
+              md: 4,
+              sm: 2,
               xs: 1,
             },
             pr: {
+              md: 4,
+              sm: 2,
               xs: 1,
             },
             width: '100%',
@@ -220,9 +229,9 @@ export default function App() {
                       <StyledTableHeaderCell key={headTitle.title}
                         align={headTitle.align}
                         style={{
-                          width: (headTitle.width ? Math.ceil(headTitle.width * 1.5) : 'auto'),
-                          maxWidth: (headTitle.width ? Math.ceil(headTitle.width * 1.5) : 'auto'),
-                          minWidth: (headTitle.width || 192),
+                          width: (headTitle.width || 'auto'),
+                          maxWidth: (headTitle.width || 'auto'),
+                          minWidth: headTitle.width === '100%' ? 160 : headTitle.width,
                         }}>
                         {headTitle.title}
                       </StyledTableHeaderCell>
@@ -303,7 +312,7 @@ export default function App() {
                             )}
                           </TableCell>
 
-                          <TableCell>
+                          <TableCell sx={{width: 'min-content'}}>
                             <Tooltip title={`Editar ${unit.name}`}
                               arrow>
                               <IconButton onClick={() => handleEditUnit(unit)}>
