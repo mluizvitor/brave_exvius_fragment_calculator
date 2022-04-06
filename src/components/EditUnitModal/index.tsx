@@ -1,5 +1,11 @@
-import { CloseRounded, EditRounded, RefreshRounded, SaveRounded } from '@mui/icons-material';
-import { Box, Button, Dialog, DialogActions, DialogContent, FormControlLabel, Grid, IconButton, MenuItem, Switch, TextField, Tooltip } from '@mui/material';
+import { AddCircleRounded, CloseRounded, EditRounded, RefreshRounded, RemoveCircleRounded, SaveRounded } from '@mui/icons-material';
+import {
+  Box, Button, Dialog,
+  DialogActions, DialogContent, FormControl,
+  FormControlLabel, Grid, IconButton,
+  InputAdornment, InputLabel, MenuItem,
+  OutlinedInput, Switch, TextField, Tooltip
+} from '@mui/material';
 import { FormEvent, useEffect, useState } from 'react';
 import { useUnit } from '../../hooks/useUnit';
 import { StyledDrialogTitle } from '../StyledDrialogTitle';
@@ -67,6 +73,29 @@ export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
     setInputNVAble(unitToManipulate.nva);
   }
 
+  function handleAddFiveFrags() {
+    setInputFragments(inputFragments + 5);
+  }
+
+  function handleRemoveFiveFrags() {
+    if (inputFragments < 5 ) {
+      setInputFragments(0);
+      return;
+    }
+    setInputFragments(inputFragments - 5);
+  }
+
+  function handleAddOneUnit() {
+    setInputExtraUnits(inputExtraUnits + 1);
+  }
+
+  function handleRemoveOneUnit() {
+    if (inputExtraUnits < 0 ) {
+      return;
+    }
+    setInputExtraUnits(inputExtraUnits - 1);
+  }
+
   /**
    * 
    * Sync Input with unitToManipulate
@@ -75,6 +104,12 @@ export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
   useEffect(()=>{
     resetInputToOriginalData();
   }, [unitToManipulate]);
+
+  useEffect(()=>{
+    !inputFragments && setInputFragments(0);
+    !inputExtraUnits && setInputExtraUnits(0);
+
+  }, [inputFragments, inputExtraUnits]);
 
   return (
     <Dialog
@@ -109,26 +144,56 @@ export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
 
             <Grid item
               xs={1}>
-              <TextField
-                label='Fragmentos'
-                type='number'
-                inputProps={{ min: 0 }}
-                value={inputFragments}
-                onChange={(e) => setInputFragments(parseInt(e.target.value))}
-                onFocus={(e) => e.target.select()}
-              />
+              <FormControl variant='outlined'>
+                <InputLabel htmlFor='fragment-input-edit-adornment'>{'Fragmentos'}</InputLabel>
+                <OutlinedInput id='fragment-input-edit-adornment'
+                  label='Fragmentos'
+                  type='number'
+                  inputProps={{ min: 0 }}
+                  value={inputFragments}
+                  onChange={(e) => setInputFragments(parseInt(e.target.value))}
+                  onFocus={(e) => e.target.select()}
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton edge='end'
+                        disabled={inputFragments <= 0 || !inputFragments}
+                        onClick={handleRemoveFiveFrags}>
+                        <RemoveCircleRounded />
+                      </IconButton>
+                      <IconButton edge='end'
+                        onClick={handleAddFiveFrags}>
+                        <AddCircleRounded />
+                      </IconButton>
+                    </InputAdornment>
+                  }/>
+              </FormControl>
             </Grid>
 
             <Grid item
               xs={1}>
-              <TextField
-                label='Unidades Extra'
-                type='number'
-                inputProps={{ min: 0 }}
-                value={inputExtraUnits}
-                onChange={(e) => setInputExtraUnits(parseInt(e.target.value))}
-                onFocus={(e) => e.target.select()}
-              />
+              <FormControl variant='outlined'>
+                <InputLabel htmlFor='extra-unit-input-edit-adornment'>{'Unidades Extra'}</InputLabel>
+                <OutlinedInput id='extra-unit-input-edit-adornment'
+                  label='Unidades Extra'
+                  type='number'
+                  inputProps={{ min: 0 }}
+                  value={inputExtraUnits}
+                  onChange={(e) => setInputExtraUnits(parseInt(e.target.value))}
+                  onFocus={(e) => e.target.select()}
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton edge='end'
+                        disabled={inputExtraUnits <= 0 || !inputExtraUnits}
+                        onClick={handleRemoveOneUnit}>
+                        <RemoveCircleRounded />
+                      </IconButton>
+                      <IconButton edge='end'
+                        onClick={handleAddOneUnit}>
+                        <AddCircleRounded />
+                      </IconButton>
+                    </InputAdornment>
+                  }/>
+              </FormControl>
             </Grid>
 
             <Grid item
@@ -169,7 +234,9 @@ export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
         </DialogContent>
 
         <DialogActions>
-          <Box sx={{flexGrow: 1}}>
+          <Box sx={{
+            flexGrow: 1,
+          }}>
             <Tooltip title='Reiniciar campos para os valores originais'
               arrow>
               <IconButton type='reset'

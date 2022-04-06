@@ -1,4 +1,4 @@
-import { DeleteForeverRounded, DeleteOutlineRounded } from '@mui/icons-material';
+import { DeleteOutlineRounded } from '@mui/icons-material';
 import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
 import { useUnit } from '../../hooks/useUnit';
 import { StyledDrialogTitle } from '../StyledDrialogTitle';
