@@ -206,8 +206,8 @@ export default function App() {
             <TableContainer
               sx={{
                 maxHeight: {
-                  sm: 'calc(100vh - 88px - 32px - 52px - 2px)',
-                  xs: 'calc(100vh - 72px - 80px - 52px - 2px)',
+                  sm: 'calc(100vh - 88px - 32px - 52px - 2px)', // 100vh - top padding - bottom padding - TablePagination - correction
+                  xs: 'calc(100vh - 72px - 80px - 52px - 2px)', // 100vh - top padding - bottom padding - TablePagination - correction
                 },
                 width: '100%',
               }}>

@@ -45,11 +45,7 @@ export const theme = createTheme({
         root: {
           paddingLeft: 12,
           paddingRight: 12,
-          borderRadius: 8,
-          borderWidth: 2,
-          ':hover': {
-            borderWidth: 2,
-          },
+          borderRadius: 6,
         },
       },
     },
@@ -74,7 +70,7 @@ export const theme = createTheme({
     MuiDialog: {
       styleOverrides: {
         paper: {
-          borderRadius: 16,
+          borderRadius: 12,
         },
       },
     },
@@ -88,11 +84,7 @@ export const theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
-          borderWidth: 2,
-        },
-        notchedOutline: {
-          borderWidth: 2,
+          borderRadius: 6,
         },
       },
     },
@@ -106,7 +98,7 @@ export const theme = createTheme({
     MuiTableCell: {
       styleOverrides: {
         head: {
-          fontSize: 16,
+          fontSize: '100%',
           fontWeight: 600,
         },
       },

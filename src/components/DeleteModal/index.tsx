@@ -38,17 +38,18 @@ export function DeleteModal({modalState, modalStateHandler}: ModalProps) {
 
       <DialogActions>
         <Button
+          fullWidth
           onClick={handleCancel}
           variant='outlined'>
           {'Não deletar'}
         </Button>
 
         <Button
+          fullWidth
           onClick={handleDelete}
           disableElevation
-          color='warning'
-          variant='contained'
-          startIcon={<DeleteForeverRounded/>}>
+          color='error'
+          variant='contained'>
           {'Deletar'}
         </Button>
       </DialogActions>
