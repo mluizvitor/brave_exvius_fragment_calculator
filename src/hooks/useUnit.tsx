@@ -38,7 +38,7 @@ export function UnitProvider({children}: UnitProviderProps) {
 
       savedDataToJson = savedDataToJson.map((data) => {
         return { ...data,
-          can_awaken: data.can_awaken || data.fragment_needed <= 0, 
+          can_awaken: data.can_awaken || data.fragment_needed <= 0,
           selected: data.selected || false,
         };
       });
@@ -47,6 +47,16 @@ export function UnitProvider({children}: UnitProviderProps) {
       return [];
     }
   });
+
+  /***
+   * 
+   * Save unit collection to Local Storage
+   * 
+   */
+  
+  useEffect(()=> {
+    localStorage.setItem('@ffbe:fragments', JSON.stringify(unitCollection));
+  }, [unitCollection]);
 
   /**
    * 
@@ -115,7 +125,7 @@ export function UnitProvider({children}: UnitProviderProps) {
       }
     }
   }
-  
+
   /**
    * 
    * Select unit
@@ -129,6 +139,7 @@ export function UnitProvider({children}: UnitProviderProps) {
 
     newUnitCollection[unitIndex].selected = !unitSelectState;
 
+    sortCollection(newUnitCollection);
     setUnitCollection(newUnitCollection);
   }
   
@@ -164,6 +175,8 @@ export function UnitProvider({children}: UnitProviderProps) {
       can_awaken: fragmentsNeeded <= 0,
     }];
   
+    sortCollection(newUnitCollection);
+    
     setUnitCollection(newUnitCollection);
   
     toast.success(unitInput.name + ' adicionado(a) com sucesso', {icon: '👍'});
@@ -203,7 +216,10 @@ export function UnitProvider({children}: UnitProviderProps) {
         can_awaken: fragmentsNeeded <= 0 && unitData.ex_level < 3,
       };
 
+      sortCollection(newUnitCollection);
+
       setUnitCollection(newUnitCollection);
+
       clearUnitToManipulate();
 
     } catch (err) {
@@ -308,26 +324,31 @@ export function UnitProvider({children}: UnitProviderProps) {
     }, 500);
   }
 
-  /***
-   * 
-   * Save unit collection to Local Storage
-   * 
+  /**
+   * Sort Collection
    */
-  
-  useEffect(()=> {
-    localStorage.setItem('@ffbe:fragments', JSON.stringify(unitCollection));
 
-    function sortCollection() {
-      const newUnitCollection = [...unitCollection].sort((a, b)=> {
-        return a.fragment_needed - b.fragment_needed;
-      });
+  function sortCollection(collection: Unit[]) {
+    const newUnitCollection = collection.sort((a, b)=> {
+      return a.name.localeCompare(b.name);
 
-      return newUnitCollection;
-    }
+    }).sort((elementA, elementB) => {
+      return elementA.ex_level - elementB.ex_level;
 
-    setUnitCollection(sortCollection);
-    
-  }, [unitCollection]);
+    }).sort((elementA, elementB) => {
+      return (elementA.nva === elementB.nva) ? 0 : elementA.nva ? -1 : 1;
+
+    }).sort((elementA, elementB) => {
+      return elementA.fragment_needed - elementB.fragment_needed;
+
+    }).sort((elementA, elementB) => {
+      return (elementA.selected === elementB.selected) ? 0 : elementA.selected ? -1 : 1;
+      
+    });
+
+    return newUnitCollection;
+  }
+
 
   return (
     <UnitContext.Provider value={{
