@@ -1,7 +1,10 @@
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 interface DialogContextData {
+  addUnitDialogState: boolean;
   addUnitDialogToggle: () => void;
+
+  deleteAllDialogState: boolean;
   deleteAllDialogToggle: () => void;
 
 }
@@ -16,25 +19,27 @@ export function DialogProvider({ children }: DialogProviderProps) {
   /**
    * Add Unit dialog
    */
-  const [openAddUnitDialog, setOpenAddUnitDialog] = useState(false);
+  const [addUnitDialogState, setAddUnitDialogState] = useState(false);
 
   function addUnitDialogToggle() {
-    setOpenAddUnitDialog(!openAddUnitDialog);
+    setAddUnitDialogState(!addUnitDialogState);
   }
 
   /**
    * Delete All dialog
    */
-  const [openDeleteAllDialog, setOpenDeleteAllDialog] = useState(false);
+  const [deleteAllDialogState, setDeleteAllDialogState] = useState(false);
 
   function deleteAllDialogToggle() {
-    setOpenDeleteAllDialog(!openDeleteAllDialog);
+    setDeleteAllDialogState(!deleteAllDialogState);
   }
 
 
   return (
     <DialogContext.Provider value={{
+      addUnitDialogState,
       addUnitDialogToggle,
+      deleteAllDialogState,
       deleteAllDialogToggle,
     }}>
       {children}
