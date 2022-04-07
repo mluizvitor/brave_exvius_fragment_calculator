@@ -7,11 +7,14 @@ import {
   OutlinedInput, Switch, TextField, Tooltip
 } from '@mui/material';
 import { FormEvent, useEffect, useState } from 'react';
+import { useDialog } from '../../hooks/useDialog';
 import { useUnit } from '../../hooks/useUnit';
 import { StyledDrialogTitle } from '../StyledDrialogTitle';
 
-export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
+export function EditUnitModal() {
   const { editUnit, unitToManipulate, clearUnitToManipulate } = useUnit();
+
+  const { editUnitDialogToggle, editUnitDialogState } = useDialog();
 
   /**
    * 
@@ -45,7 +48,7 @@ export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
 
     editUnit(newData);
 
-    modalStateHandler();
+    editUnitDialogToggle();
   }
 
   /**
@@ -55,7 +58,7 @@ export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
    */
 
   function handleCancel() {
-    modalStateHandler();
+    editUnitDialogToggle();
     clearUnitToManipulate();
   }
 
@@ -73,6 +76,11 @@ export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
     setInputNVAble(unitToManipulate.nva);
   }
 
+  /**
+   * 
+   * Add or Remove 5 fragments
+   * 
+   */
   function handleAddFiveFrags() {
     setInputFragments(inputFragments + 5);
   }
@@ -85,6 +93,11 @@ export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
     setInputFragments(inputFragments - 5);
   }
 
+  /**
+   * 
+   * Add or Remove 1 unit
+   * 
+   */
   function handleAddOneUnit() {
     setInputExtraUnits(inputExtraUnits + 1);
   }
@@ -105,6 +118,11 @@ export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
     resetInputToOriginalData();
   }, [unitToManipulate]);
 
+  /**
+   * 
+   * Always set Input to zero if Fragments or ExtraUnit inputs is empty
+   * 
+   */
   useEffect(()=>{
     !inputFragments && setInputFragments(0);
     !inputExtraUnits && setInputExtraUnits(0);
@@ -113,7 +131,7 @@ export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
 
   return (
     <Dialog
-      open={modalState}
+      open={editUnitDialogState}
       onClose={handleCancel}
       maxWidth='sm'
       fullWidth>

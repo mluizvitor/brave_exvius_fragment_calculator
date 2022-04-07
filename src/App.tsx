@@ -68,9 +68,7 @@ export default function App() {
 
   const { unitCollection, selectUnit, awakenUnit, handleUnitToManipulate, searchInput } = useUnit();
 
-  const { deleteUnitDialogToggle } = useDialog();
-
-  const [openEditUnitModal, setOpenEditUnitModal] = useState(false);
+  const { editUnitDialogToggle, deleteUnitDialogToggle } = useDialog();
 
   /**
    * 
@@ -84,12 +82,8 @@ export default function App() {
     setPage(newPage);
   };
 
-  function handleEditUnitModalState() {
-    setOpenEditUnitModal(!openEditUnitModal);
-  }
-
   function handleEditUnit(unitData: Unit){
-    handleEditUnitModalState();
+    editUnitDialogToggle();
     handleUnitToManipulate(unitData);
   }
 
@@ -294,9 +288,7 @@ export default function App() {
 
       <AddUnitModal />
 
-      <EditUnitModal
-        modalState={openEditUnitModal}
-        modalStateHandler={handleEditUnitModalState}/>
+      <EditUnitModal />
 
       <DeleteModal />
 
