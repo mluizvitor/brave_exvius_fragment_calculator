@@ -5,6 +5,7 @@ interface UnitContextData {
   unitCollection: Unit[];
   
   addUnit: (unitInput: UnitInputProps) => void;
+  selectUnit: (unitId: string) => void;
   editUnit: (unitData: Unit) => void;
   awakenUnit: (unitData: Unit) => void;
   deleteSingleUnit: (unitId: string, unitName: string) => void;
@@ -28,6 +29,7 @@ export function UnitProvider({children}: UnitProviderProps) {
    * Init Unit Collection
    * 
    */
+
   const [unitCollection, setUnitCollection] = useState<Unit[]>(() => {
     const savedData = localStorage.getItem('@ffbe:fragments');
     
@@ -37,6 +39,7 @@ export function UnitProvider({children}: UnitProviderProps) {
       savedDataToJson = savedDataToJson.map((data) => {
         return { ...data,
           can_awaken: data.can_awaken || data.fragment_needed <= 0, 
+          selected: data.selected || false,
         };
       });
       return savedDataToJson;
@@ -53,6 +56,7 @@ export function UnitProvider({children}: UnitProviderProps) {
 
   const [unitToManipulate, setUnitToManipulate] = useState<Unit>({
     id: '',
+    selected: false,
     name: '',
     ex_level: 0,
     fragments: 0,
@@ -114,6 +118,22 @@ export function UnitProvider({children}: UnitProviderProps) {
   
   /**
    * 
+   * Select unit
+   * 
+   */
+
+  function selectUnit(unitId: string) {
+    const newUnitCollection = [...unitCollection];
+    const unitIndex = newUnitCollection.findIndex((unit) => unit.id === unitId);
+    const unitSelectState = newUnitCollection[unitIndex].selected;
+
+    newUnitCollection[unitIndex].selected = !unitSelectState;
+
+    setUnitCollection(newUnitCollection);
+  }
+  
+  /**
+   * 
    * Add unit to content table
    * 
    */
@@ -132,8 +152,9 @@ export function UnitProvider({children}: UnitProviderProps) {
       unitInput.nva
     );
   
-    const newTableContent = [...unitCollection, {
+    const newUnitCollection = [...unitCollection, {
       id: genId(),
+      selected: false,
       name: unitInput.name,
       ex_level: unitInput.ex_level,
       fragments: unitInput.fragments || 0,
@@ -143,7 +164,7 @@ export function UnitProvider({children}: UnitProviderProps) {
       can_awaken: fragmentsNeeded <= 0,
     }];
   
-    setUnitCollection(newTableContent);
+    setUnitCollection(newUnitCollection);
   
     toast.success(unitInput.name + ' adicionado(a) com sucesso', {icon: '👍'});
     clearUnitToManipulate();
@@ -275,6 +296,7 @@ export function UnitProvider({children}: UnitProviderProps) {
     setTimeout(() => {
       setUnitToManipulate({
         id: '',
+        selected: false,
         name: '',
         ex_level: 0,
         fragments: 0,
@@ -311,6 +333,7 @@ export function UnitProvider({children}: UnitProviderProps) {
     <UnitContext.Provider value={{
       unitCollection,
       addUnit,
+      selectUnit,
       editUnit,
       awakenUnit,
       deleteSingleUnit,

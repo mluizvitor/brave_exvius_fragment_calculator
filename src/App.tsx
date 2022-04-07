@@ -1,5 +1,5 @@
-import { AddRounded, CheckBoxOutlineBlankRounded, CheckBoxRounded, DeleteForeverRounded, DeleteOutlineRounded, EditRounded, StarRounded, WarningAmberRounded } from '@mui/icons-material';
-import { AppBar, Container, Fab, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Toolbar, Tooltip, Typography } from '@mui/material';
+import { AddRounded, CheckCircleOutlineRounded, DeleteForeverRounded, DeleteOutlineRounded, EditRounded, RadioButtonUncheckedRounded, StarRounded, WarningAmberRounded } from '@mui/icons-material';
+import { AppBar, Checkbox, Container, Fab, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Toolbar, Tooltip, Typography } from '@mui/material';
 import { Suspense, useState } from 'react';
 import { AddUnitModal } from './components/AddUnitModal';
 import { DeleteAllModal } from './components/DeleteAllModal';
@@ -18,6 +18,10 @@ interface TableHeadTitleProps {
 
 export default function App() {
   const tableHeadTitles: TableHeadTitleProps[] = [
+    {
+      id: 'selected',
+      title: 'Treinando',
+    },
     {
       id: 'name',
       title: 'Nome da Unidade',
@@ -61,7 +65,7 @@ export default function App() {
     }    
   ];
 
-  const { unitCollection, awakenUnit, handleUnitToManipulate } = useUnit();
+  const { unitCollection, selectUnit, awakenUnit, handleUnitToManipulate } = useUnit();
 
   const [openAddUnitModal, setOpenAddUnitModal] = useState(false);
   const [openEditUnitModal, setOpenEditUnitModal] = useState(false);
@@ -113,6 +117,10 @@ export default function App() {
 
   function handleDeleteAllUnits() {
     handleDeleteAllModalState();
+  }
+
+  function handleUnitSelect(unitId: string) {
+    selectUnit(unitId);
   }
 
   const containerStyles = {
@@ -259,6 +267,10 @@ export default function App() {
                       .map((unit) => (
                         <TableRow key={unit.id}
                           hover>
+                          <TableCell align='center'>
+                            <Checkbox checked={unit.selected}
+                              onClick={() => handleUnitSelect(unit.id)}/>
+                          </TableCell>
                           <TableCell>
                             {unit.name}
                           </TableCell>
@@ -288,9 +300,9 @@ export default function App() {
 
                           <TableCell>
                             {unit.nva ? (
-                              <CheckBoxRounded color='primary'/>
+                              <CheckCircleOutlineRounded color='info'/>
                             ):(
-                              <CheckBoxOutlineBlankRounded sx={{opacity: 0.6}}/>
+                              <RadioButtonUncheckedRounded sx={{opacity: 0.4}}/>
                             )}
                           </TableCell>
 
@@ -306,9 +318,9 @@ export default function App() {
 
                           <TableCell>
                             {unit.can_awaken ? (
-                              <CheckBoxRounded color='success'/>
+                              <CheckCircleOutlineRounded color='success'/>
                             ):(
-                              <CheckBoxOutlineBlankRounded sx={{opacity: 0.6}}/>
+                              <RadioButtonUncheckedRounded sx={{opacity: 0.4}}/>
                             )}
                           </TableCell>
 
