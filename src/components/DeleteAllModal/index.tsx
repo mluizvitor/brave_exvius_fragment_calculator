@@ -1,24 +1,26 @@
 import { DeleteForeverRounded } from '@mui/icons-material';
 import { Button, Dialog, DialogActions, DialogContent, FormControlLabel, Switch} from '@mui/material';
 import { useState } from 'react';
+import { useDialog } from '../../hooks/useDialog';
 import { useUnit } from '../../hooks/useUnit';
 import { StyledDrialogTitle } from '../StyledDrialogTitle';
 
-export function DeleteAllModal({modalState, modalStateHandler}: ModalProps) {
+export function DeleteAllModal() {
 
   const { deleteAllUnits } = useUnit();
+  const { deleteAllDialogToggle, deleteAllDialogState } = useDialog();
 
   const [deleteKey, setDeleteKey] = useState(false);
 
   function handleDelete(){
     deleteAllUnits();
 
-    modalStateHandler();
+    deleteAllDialogToggle();
     setDeleteKey(false);
   }
 
   function handleCancel() {
-    modalStateHandler();
+    deleteAllDialogToggle();
     setDeleteKey(false);
   }
 
@@ -26,8 +28,8 @@ export function DeleteAllModal({modalState, modalStateHandler}: ModalProps) {
     <Dialog
       maxWidth='xs'
       fullWidth
-      open={modalState}
-      onClose={modalStateHandler}>
+      open={deleteAllDialogState}
+      onClose={deleteAllDialogToggle}>
       <StyledDrialogTitle
         icon={<DeleteForeverRounded />}
         title='Deletar Tudo'/>
