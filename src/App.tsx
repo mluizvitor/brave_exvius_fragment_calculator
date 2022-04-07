@@ -325,14 +325,8 @@ export default function App() {
                           </TableCell>
 
                           <TableCell sx={{width: 'min-content'}}>
-                            <Tooltip title={`Editar ${unit.name}`}
+                            <Tooltip title={`Despertar ${unit.name}`}
                               arrow>
-                              <IconButton onClick={() => handleEditUnit(unit)}>
-                                <EditRounded/>
-                              </IconButton>
-                            </Tooltip>
-
-                            <Tooltip title={`Despertar ${unit.name}`}>
                               <span>
                                 <IconButton
                                   color='warning'
@@ -341,6 +335,13 @@ export default function App() {
                                   <StarRounded/>
                                 </IconButton>
                               </span>
+                            </Tooltip>
+
+                            <Tooltip title={`Editar ${unit.name}`}
+                              arrow>
+                              <IconButton onClick={() => handleEditUnit(unit)}>
+                                <EditRounded/>
+                              </IconButton>
                             </Tooltip>
 
                             <Tooltip title={`Deletar ${unit.name}`}
