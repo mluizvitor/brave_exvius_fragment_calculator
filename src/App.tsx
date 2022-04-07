@@ -1,7 +1,8 @@
-import { AddRounded, CheckCircleOutlineRounded, ClearRounded, DeleteForeverRounded, DeleteOutlineRounded, EditRounded, RadioButtonUncheckedRounded, SearchRounded, StarRounded, WarningAmberRounded } from '@mui/icons-material';
-import { AppBar, Checkbox, Container, Fab, IconButton, InputAdornment, OutlinedInput, Paper, SvgIcon, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Toolbar, Tooltip, Typography } from '@mui/material';
+import { CheckCircleOutlineRounded, DeleteOutlineRounded, EditRounded, RadioButtonUncheckedRounded, StarRounded, WarningAmberRounded } from '@mui/icons-material';
+import { Checkbox, Container, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Tooltip, Typography } from '@mui/material';
 import { Suspense, useState } from 'react';
 import { AddUnitModal } from './components/AddUnitModal';
+import { ApplicationBar } from './components/ApplicationBar';
 import { DeleteAllModal } from './components/DeleteAllModal';
 import { DeleteModal } from './components/DeleteModal';
 import { EditUnitModal } from './components/EditUnitModal';
@@ -64,14 +65,10 @@ export default function App() {
     }    
   ];
 
-  const { unitCollection, selectUnit, awakenUnit, handleUnitToManipulate } = useUnit();
+  const { unitCollection, selectUnit, awakenUnit, handleUnitToManipulate, searchInput } = useUnit();
 
-  const [searchInput, setSearchInput] = useState('');
-
-  const [openAddUnitModal, setOpenAddUnitModal] = useState(false);
   const [openEditUnitModal, setOpenEditUnitModal] = useState(false);
   const [openDeleteUnitModal, setOpenDeleteUnitModal] = useState(false);
-  const [openDeleteAllModal, setOpenDeleteAllModal] = useState(false);
 
   /**
    * 
@@ -85,20 +82,12 @@ export default function App() {
     setPage(newPage);
   };
 
-  function handleAddUnitModalState() {
-    setOpenAddUnitModal(!openAddUnitModal);
-  }
-
   function handleEditUnitModalState() {
     setOpenEditUnitModal(!openEditUnitModal);
   }
 
   function handleDeleteUnitModalState() {
     setOpenDeleteUnitModal(!openDeleteUnitModal);
-  }
-
-  function handleDeleteAllModalState() {
-    setOpenDeleteAllModal(!openDeleteAllModal);
   }
 
   function handleEditUnit(unitData: Unit){
@@ -114,10 +103,6 @@ export default function App() {
   function handleDeleteUnit(unitData: Unit) {
     handleUnitToManipulate(unitData);
     handleDeleteUnitModalState();
-  }
-
-  function handleDeleteAllUnits() {
-    handleDeleteAllModalState();
   }
 
   function handleUnitSelect(unitId: string) {
@@ -145,110 +130,9 @@ export default function App() {
     },
   };
 
-  const fabStyles = {
-    position: {
-      md: 'static',
-      xs: 'fixed',
-    },
-    bottom: {
-      md: 0,
-      xs: 16,
-    },
-    right: {
-      md: 0,
-      xs: 16,
-    },
-  };
-
   return (
     <>
-      <AppBar
-        position='fixed'
-        color='default'
-        sx={{
-          alignItems: 'center',
-        }}>
-        <Toolbar
-          sx={{ 
-            pl: {
-              md: 4,
-              sm: 2,
-              xs: 1,
-            },
-            pr: {
-              md: 4,
-              sm: 2,
-              xs: 1,
-            },
-            width: '100%',
-            maxWidth: 'xl',
-            gap: 1,
-          }}>
-          <IconButton href='/brave_exvius_fragment_calculator'
-            color='primary'>
-            <SvgIcon>
-              <path d='M 12 2 A 1.0001 1.0001 0 0 0 11.167969 2.4453125 L 9.4140625 5.0742188 L 9.7929688 6.2089844 L 10.832031 6.5546875 L 12 4.8027344 L 16.798828 12 L 14.908203 14.835938 L 15 14.882812 L 16.552734 14.105469 A 1.0001 1.0001 0 0 1 17.361328 14.068359 A 1.0001 1.0001 0 0 1 17.685547 14.275391 L 18.832031 12.554688 A 1.0001 1.0001 0 0 0 18.832031 11.445312 L 12.832031 2.4453125 A 1.0001 1.0001 0 0 0 12 2 z M 8.0019531 4 L 7.0019531 7 L 4.0019531 8 L 7.0019531 9 L 8.0019531 12 L 9.0019531 9 L 12.001953 8 L 9.0019531 7 L 8.0019531 4 z M 6.2304688 9.8515625 L 5.1679688 11.445312 A 1.0001 1.0001 0 0 0 5.1679688 12.554688 L 11.167969 21.554688 A 1.0001 1.0001 0 0 0 12.832031 21.554688 L 14.185547 19.525391 L 13.447266 19.894531 A 1.0001 1.0001 0 0 1 12.033203 19.148438 L 12 19.197266 L 7.8476562 12.96875 A 1.0001 1.0001 0 0 1 7.0527344 12.316406 L 6.2304688 9.8515625 z M 13 15 L 14 17 L 13 19 L 15 18 L 17 19 L 16 17 L 17 15 L 15 16 L 13 15 z '/>
-            </SvgIcon>
-          </IconButton>
-
-          <Typography variant='h5'
-            component='h1'
-            noWrap
-            sx={{
-              display: {
-                sm: 'block',
-                xs: 'none',
-              },
-              flexGrow: 1,
-            }}>
-            {'FFBE Fragments'}
-          </Typography>
-
-          <OutlinedInput
-            size='small'
-            placeholder='Procurar unidade'
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            startAdornment={(
-              <InputAdornment position='start'>
-                <SearchRounded />
-              </InputAdornment>
-            )}
-            endAdornment={ (
-              <InputAdornment position='end'>
-                <IconButton edge='end'
-                  disabled={searchInput.length === 0}
-                  sx={{opacity: searchInput.length !== 0 ? 0.9 : 0}}
-                  onClick={() => setSearchInput('')}>
-                  <ClearRounded />
-                </IconButton>
-              </InputAdornment>
-            )}
-          />
-
-          <Fab
-            color='primary'
-            onClick={handleAddUnitModalState}
-            variant='extended'
-            sx={fabStyles}>
-            <AddRounded sx={{mr: 1}}/>
-            {'Adicionar Unidade'}
-          </Fab>
-
-          <Tooltip title='Deletar tudo'
-            arrow>
-            <span>
-              <IconButton
-                disabled={unitCollection.length === 0}
-                color='error'
-                onClick={handleDeleteAllUnits}>
-                <DeleteForeverRounded/>
-              </IconButton>
-            </span>
-          </Tooltip>
-        </Toolbar>
-      </AppBar>
-
+      <ApplicationBar />
       <Container maxWidth='xl'
         sx={containerStyles}>
 
@@ -410,18 +294,17 @@ export default function App() {
 
       </Container>
 
-      <AddUnitModal
-        modalState={openAddUnitModal}
-        modalStateHandler={handleAddUnitModalState}/>
+      <AddUnitModal />
+
       <EditUnitModal
         modalState={openEditUnitModal}
         modalStateHandler={handleEditUnitModalState}/>
+
       <DeleteModal
         modalState={openDeleteUnitModal}
         modalStateHandler={handleDeleteUnitModalState}/>
-      <DeleteAllModal
-        modalState={openDeleteAllModal}
-        modalStateHandler={handleDeleteAllModalState}/>
+
+      <DeleteAllModal />
     </>
   );
 }
