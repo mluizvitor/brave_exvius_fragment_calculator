@@ -4,6 +4,7 @@ import * as ReactDomClient from 'react-dom/client';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import App from './App';
+import { DialogProvider } from './hooks/useDialog';
 import { UnitProvider } from './hooks/useUnit';
 import reportWebVitals from './reportWebVitals';
 import { theme } from './styles/theme';
@@ -18,16 +19,18 @@ root.render(
     <ThemeProvider theme={theme}>
       <CssBaseline/>
       <UnitProvider>
-        <App />
+        <DialogProvider>
+          <App />
 
-        <ToastContainer
-          theme='light'
-          autoClose={3000}
-          toastClassName='toastifyBody'
-          closeButton={false}
-          hideProgressBar
-          position='top-center'
-        />
+          <ToastContainer
+            theme='light'
+            autoClose={3000}
+            toastClassName='toastifyBody'
+            closeButton={false}
+            hideProgressBar
+            position='top-center'
+          />
+        </DialogProvider>
       </UnitProvider>
     </ThemeProvider>
   </React.StrictMode>
