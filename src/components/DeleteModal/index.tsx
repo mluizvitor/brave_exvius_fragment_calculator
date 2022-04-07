@@ -1,21 +1,23 @@
 import { DeleteOutlineRounded } from '@mui/icons-material';
 import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
+import { useDialog } from '../../hooks/useDialog';
 import { useUnit } from '../../hooks/useUnit';
 import { StyledDrialogTitle } from '../StyledDrialogTitle';
 
-export function DeleteModal({modalState, modalStateHandler}: ModalProps) {
-
+export function DeleteModal() {
   const { deleteSingleUnit, unitToManipulate: currentUnit, clearUnitToManipulate } = useUnit();
+
+  const { deleteUnitDialogToggle, deleteUnitDialogState } = useDialog();
 
   function handleDelete(){
     deleteSingleUnit(currentUnit.id, currentUnit.name);
 
-    modalStateHandler();
+    deleteUnitDialogToggle();
     clearUnitToManipulate();
   }
 
   function handleCancel() {
-    modalStateHandler();
+    deleteUnitDialogToggle();
     clearUnitToManipulate();
   }
 
@@ -23,8 +25,8 @@ export function DeleteModal({modalState, modalStateHandler}: ModalProps) {
     <Dialog
       maxWidth='xs'
       fullWidth
-      open={modalState}
-      onClose={modalStateHandler}>
+      open={deleteUnitDialogState}
+      onClose={deleteUnitDialogToggle}>
       <StyledDrialogTitle
         icon={<DeleteOutlineRounded />}
         title={`Deletar ${currentUnit.name}`}/>

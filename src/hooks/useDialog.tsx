@@ -7,6 +7,8 @@ interface DialogContextData {
   deleteAllDialogState: boolean;
   deleteAllDialogToggle: () => void;
 
+  deleteUnitDialogState: boolean;
+  deleteUnitDialogToggle: () => void;
 }
 
 interface DialogProviderProps {
@@ -26,6 +28,16 @@ export function DialogProvider({ children }: DialogProviderProps) {
   }
 
   /**
+   * Delete Unit dialog
+   */
+
+  const [deleteUnitDialogState, setDeleteUnitDialogState] = useState(false);
+
+  function deleteUnitDialogToggle() {
+    setDeleteUnitDialogState(!deleteUnitDialogState);
+  }
+
+  /**
    * Delete All dialog
    */
   const [deleteAllDialogState, setDeleteAllDialogState] = useState(false);
@@ -41,6 +53,8 @@ export function DialogProvider({ children }: DialogProviderProps) {
       addUnitDialogToggle,
       deleteAllDialogState,
       deleteAllDialogToggle,
+      deleteUnitDialogState,
+      deleteUnitDialogToggle,
     }}>
       {children}
     </DialogContext.Provider>

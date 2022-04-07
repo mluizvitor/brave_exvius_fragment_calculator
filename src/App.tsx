@@ -7,6 +7,7 @@ import { DeleteAllModal } from './components/DeleteAllModal';
 import { DeleteModal } from './components/DeleteModal';
 import { EditUnitModal } from './components/EditUnitModal';
 import { StyledTableHeaderCell } from './components/StyledTableHeadCell/styles';
+import { useDialog } from './hooks/useDialog';
 import { useUnit } from './hooks/useUnit';
 
 interface TableHeadTitleProps {
@@ -67,8 +68,9 @@ export default function App() {
 
   const { unitCollection, selectUnit, awakenUnit, handleUnitToManipulate, searchInput } = useUnit();
 
+  const { deleteUnitDialogToggle } = useDialog();
+
   const [openEditUnitModal, setOpenEditUnitModal] = useState(false);
-  const [openDeleteUnitModal, setOpenDeleteUnitModal] = useState(false);
 
   /**
    * 
@@ -86,10 +88,6 @@ export default function App() {
     setOpenEditUnitModal(!openEditUnitModal);
   }
 
-  function handleDeleteUnitModalState() {
-    setOpenDeleteUnitModal(!openDeleteUnitModal);
-  }
-
   function handleEditUnit(unitData: Unit){
     handleEditUnitModalState();
     handleUnitToManipulate(unitData);
@@ -102,7 +100,7 @@ export default function App() {
 
   function handleDeleteUnit(unitData: Unit) {
     handleUnitToManipulate(unitData);
-    handleDeleteUnitModalState();
+    deleteUnitDialogToggle();
   }
 
   function handleUnitSelect(unitId: string) {
@@ -300,9 +298,7 @@ export default function App() {
         modalState={openEditUnitModal}
         modalStateHandler={handleEditUnitModalState}/>
 
-      <DeleteModal
-        modalState={openDeleteUnitModal}
-        modalStateHandler={handleDeleteUnitModalState}/>
+      <DeleteModal />
 
       <DeleteAllModal />
     </>
