@@ -1,11 +1,13 @@
 import { CloseRounded, PersonAddAltRounded, RefreshRounded, SaveRounded } from '@mui/icons-material';
 import { Box, Button, Dialog, DialogActions, DialogContent, FormControlLabel, Grid, IconButton, MenuItem, Switch, TextField, Tooltip } from '@mui/material';
 import { FormEvent, useEffect, useState } from 'react';
+import { useDialog } from '../../hooks/useDialog';
 import { useUnit } from '../../hooks/useUnit';
 import { StyledDrialogTitle } from '../StyledDrialogTitle';
 
-export function AddUnitModal({modalState, modalStateHandler}: ModalProps) {
+export function AddUnitModal() {
   const { addUnit, unitToManipulate, clearUnitToManipulate } = useUnit();
+  const { addUnitDialogToggle, addUnitDialogState } = useDialog();
 
   /**
    * 
@@ -49,7 +51,7 @@ export function AddUnitModal({modalState, modalStateHandler}: ModalProps) {
       nva: inputNVAble,
     });
     
-    modalStateHandler();
+    addUnitDialogToggle();
   }
 
   /**
@@ -59,13 +61,13 @@ export function AddUnitModal({modalState, modalStateHandler}: ModalProps) {
    */
 
   function handleCancel() {
-    modalStateHandler();
+    addUnitDialogToggle();
     clearUnitToManipulate();
   }
 
   return (
     <Dialog
-      open={modalState}
+      open={addUnitDialogState}
       onClose={handleCancel}
       maxWidth='sm'
       fullWidth>
