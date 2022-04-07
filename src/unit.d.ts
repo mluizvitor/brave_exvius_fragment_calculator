@@ -1,5 +1,6 @@
 interface Unit {
   id: string;
+  selected: boolean;
   name: string;
   ex_level: number;
   fragments: number;
@@ -9,4 +10,4 @@ interface Unit {
   can_awaken: boolean;
 }
 
-type UnitInputProps = Omit<Unit, 'id' | 'fragment_needed' | 'can_awaken'>;
+type UnitInputProps = Omit<Unit, 'id' | 'selected' | 'fragment_needed' | 'can_awaken'>;
