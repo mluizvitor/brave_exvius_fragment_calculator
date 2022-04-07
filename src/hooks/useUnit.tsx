@@ -11,6 +11,9 @@ interface UnitContextData {
   deleteSingleUnit: (unitId: string, unitName: string) => void;
   deleteAllUnits: () => void;
   
+  searchInput: string;
+  searchUnit: (userInput: string) => void;
+
   unitToManipulate: Unit;
   handleUnitToManipulate: (unitData: Unit) => void;
   clearUnitToManipulate: () => void;
@@ -57,6 +60,18 @@ export function UnitProvider({children}: UnitProviderProps) {
   useEffect(()=> {
     localStorage.setItem('@ffbe:fragments', JSON.stringify(unitCollection));
   }, [unitCollection]);
+
+  /**
+   * 
+   * Search state
+   * 
+   */
+
+  const [searchInput, setSearchInput] = useState('');
+
+  function searchUnit(userInput: string) {
+    setSearchInput(userInput);
+  }
 
   /**
    * 
@@ -359,6 +374,8 @@ export function UnitProvider({children}: UnitProviderProps) {
       awakenUnit,
       deleteSingleUnit,
       deleteAllUnits,
+      searchInput,
+      searchUnit,
       unitToManipulate,
       handleUnitToManipulate,
       clearUnitToManipulate,
