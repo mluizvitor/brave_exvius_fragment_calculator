@@ -201,7 +201,7 @@ export default function App() {
             <span>
               <IconButton
                 disabled={unitCollection.length === 0}
-                color='warning'
+                color='error'
                 onClick={handleDeleteAllUnits}>
                 <DeleteForeverRounded/>
               </IconButton>

@@ -155,14 +155,16 @@ export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
                   onFocus={(e) => e.target.select()}
                   endAdornment={
                     <InputAdornment position='end'>
+
                       <IconButton edge='end'
                         disabled={inputFragments <= 0 || !inputFragments}
                         onClick={handleRemoveFiveFrags}>
-                        <RemoveCircleRounded />
+                        <RemoveCircleRounded sx={{opacity: 0.9}} />
                       </IconButton>
+
                       <IconButton edge='end'
                         onClick={handleAddFiveFrags}>
-                        <AddCircleRounded />
+                        <AddCircleRounded sx={{opacity: 0.9}}/>
                       </IconButton>
                     </InputAdornment>
                   }/>
@@ -182,14 +184,16 @@ export function EditUnitModal({modalState, modalStateHandler}: ModalProps) {
                   onFocus={(e) => e.target.select()}
                   endAdornment={
                     <InputAdornment position='end'>
+
                       <IconButton edge='end'
                         disabled={inputExtraUnits <= 0 || !inputExtraUnits}
                         onClick={handleRemoveOneUnit}>
-                        <RemoveCircleRounded />
+                        <RemoveCircleRounded sx={{opacity: 0.9}}/>
                       </IconButton>
+
                       <IconButton edge='end'
                         onClick={handleAddOneUnit}>
-                        <AddCircleRounded />
+                        <AddCircleRounded sx={{opacity: 0.9}}/>
                       </IconButton>
                     </InputAdornment>
                   }/>

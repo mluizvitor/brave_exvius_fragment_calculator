@@ -11,19 +11,22 @@ export const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#8CD0BA',
+      main: 'hsl(170, 70%, 60%)',
     },
     secondary: {
-      main: '#142F55',
+      main: 'hsl(210, 50%, 22%)',
     },
     success: {
-      main: '#0df287',
+      main: 'hsl(150, 60%, 70%)',
+    },
+    info: {
+      main: 'hsl(200, 80%, 70%)',
     },
     warning: {
-      main: '#FEBD34',
+      main: 'hsl(41, 90%, 65%)',
     },
     error: {
-      main: '#fe8779',
+      main: 'hsl(8, 100%, 78%)',
     },
     background: {
       default: '#191A1C',
