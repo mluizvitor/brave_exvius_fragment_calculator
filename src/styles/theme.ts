@@ -11,26 +11,32 @@ export const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: 'hsl(170, 70%, 60%)',
+      main: '#77d1ff',
+      contrastText: '#003549',
     },
     secondary: {
-      main: 'hsl(210, 50%, 22%)',
+      main: '#364955',
+      contrastText: '#d1e5f3',
     },
     success: {
-      main: 'hsl(150, 60%, 70%)',
+      main: '#09e290',
+      contrastText: '#00391f',
     },
     info: {
-      main: 'hsl(200, 80%, 70%)',
+      main: '#b3c5ff',
+      contrastText: '#00287d',
     },
     warning: {
-      main: 'hsl(41, 90%, 65%)',
+      main: '#c4ce5b',
+      contrastText: '#2e3300',
     },
     error: {
-      main: 'hsl(8, 100%, 78%)',
+      main: '#ffb4a9',
+      contrastText: '#680003',
     },
     background: {
-      default: '#191A1C',
-      paper: '#1A2027',
+      default: '#191c1e',
+      paper: '#191c1e',
     },
   },
   components: {

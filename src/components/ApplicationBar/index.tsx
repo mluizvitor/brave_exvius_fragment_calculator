@@ -13,7 +13,7 @@ import { useUnit } from '../../hooks/useUnit';
 
 const fabStyles = {
   position: {
-    md: 'static',
+    md: 'relative',
     xs: 'fixed',
   },
   bottom: {
@@ -46,7 +46,9 @@ export function ApplicationBar() {
   return (
     <AppBar
       position='fixed'
-      color='default'
+      color='secondary'
+      enableColorOnDark
+      variant='outlined'
       sx={{
         alignItems: 'center',
       }}>
