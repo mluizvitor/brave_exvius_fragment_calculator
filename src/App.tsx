@@ -3,6 +3,7 @@ import { ApplicationBar } from './components/ApplicationBar';
 import { DeleteAllModal } from './components/DeleteAllModal';
 import { DeleteModal } from './components/DeleteModal';
 import { EditUnitModal } from './components/EditUnitModal';
+import { Footer } from './components/Footer';
 import { UnitTable } from './components/UnitTable';
 
 
@@ -12,6 +13,8 @@ export default function App() {
       <ApplicationBar />
 
       <UnitTable />
+
+      <Footer />
 
       <AddUnitModal />
 
