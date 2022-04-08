@@ -179,8 +179,7 @@ export function AddUnitModal() {
             variant='contained'
             type='submit'
             disableElevation
-            startIcon={(<SaveRounded/>)}
-          >
+            startIcon={(<SaveRounded/>)}>
             {'Salvar'}
           </Button>
         </DialogActions>

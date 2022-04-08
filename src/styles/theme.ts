@@ -36,7 +36,7 @@ export const theme = createTheme({
     },
     background: {
       default: '#191c1e',
-      paper: '#191c1e',
+      paper: '#1c2326',
     },
   },
   components: {

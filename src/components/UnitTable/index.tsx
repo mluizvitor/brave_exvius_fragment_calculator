@@ -1,12 +1,10 @@
 import { CheckCircleOutlineRounded, DeleteOutlineRounded, EditRounded, RadioButtonUncheckedRounded, StarRounded, WarningAmberRounded } from '@mui/icons-material';
+import { SvgIcon } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
-import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
-import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
@@ -15,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import { Suspense, useState } from 'react';
 import { useDialog } from '../../hooks/useDialog';
 import { useUnit } from '../../hooks/useUnit';
-import { StyledTableHeaderCell } from '../StyledTableHeadCell/styles';
+import { StyledContainer, StyledPaper, StyledTableContainer, StyledTableHeaderCell } from './styles';
 
 interface TableHeadTitleProps {
   id: string;
@@ -25,10 +23,6 @@ interface TableHeadTitleProps {
 }
 
 const tableHeadTitles: TableHeadTitleProps[] = [
-  {
-    id: 'selected',
-    title: 'Treinando',
-  },
   {
     id: 'name',
     title: 'Nome da Unidade',
@@ -72,27 +66,6 @@ const tableHeadTitles: TableHeadTitleProps[] = [
   }    
 ];
 
-const containerStyles = {
-  pt: {
-    sm: 5.5,
-    xs: 4.5,
-  },
-  pb: {
-    md: 2,
-    xs: 5,
-  },
-  pl: {
-    md: 4,
-    sm: 2,
-    xs: 1,
-  },
-  pr: {
-    md: 4,
-    sm: 2,
-    xs: 1,
-  },
-};
-
 export function UnitTable() {
   const { unitCollection, selectUnit, awakenUnit, handleUnitToManipulate, searchInput } = useUnit();
   const { editUnitDialogToggle, deleteUnitDialogToggle } = useDialog();
@@ -129,31 +102,25 @@ export function UnitTable() {
   }
 
   return (
-    <Container maxWidth='xl'
-      sx={containerStyles}>
+    <StyledContainer maxWidth='xl'>
 
       <Suspense fallback='Carregando'>
-        <Paper
-          elevation={1}
-          sx={{
-            borderRadius: 4,
-            overflow: 'hidden',
-            boxShadow: 'none',
-          }}>
-          <TableContainer
-            sx={{
-              maxHeight: {
-                md: 'calc(100vh - 88px - 32px - 52px - 2px)', // 100vh - top padding - bottom padding - TablePagination - correction
-                sm: 'calc(100vh - 88px - 80px - 52px - 2px)', // 100vh - top padding - bottom padding - TablePagination - correction
-                xs: 'calc(100vh - 72px - 80px - 52px - 2px)', // 100vh - top padding - bottom padding - TablePagination - correction
-              },
-              width: '100%',
-            }}>
+        <StyledPaper
+          elevation={2}>
+          <StyledTableContainer>
             <Table
               stickyHeader
               size='small'>
               <TableHead>
                 <TableRow>
+                  <StyledTableHeaderCell align='center'>
+                    <Tooltip title='Unidades em Treinamento'
+                      arrow>
+                      <SvgIcon sx={{width: 40}}>
+                        <path d='M6.92,5H5L14,14L15,13.06M19.96,19.12L19.12,19.96C18.73,20.35 18.1,20.35 17.71,19.96L14.59,16.84L11.91,19.5L10.5,18.09L11.92,16.67L3,7.75V3H7.75L16.67,11.92L18.09,10.5L19.5,11.91L16.83,14.58L19.95,17.7C20.35,18.1 20.35,18.73 19.96,19.12Z' />
+                      </SvgIcon>
+                    </Tooltip>
+                  </StyledTableHeaderCell>
                   {tableHeadTitles.map((headTitle) => (
                     <StyledTableHeaderCell key={headTitle.title}
                       align={headTitle.align}
@@ -277,7 +244,7 @@ export function UnitTable() {
                     })}
               </TableBody>
             </Table>
-          </TableContainer>
+          </StyledTableContainer>
           <TablePagination
             rowsPerPageOptions={[]}
             component='div'
@@ -285,10 +252,10 @@ export function UnitTable() {
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}/>
-        </Paper>
+        </StyledPaper>
 
       </Suspense>
 
-    </Container>
+    </StyledContainer>
   );
 }

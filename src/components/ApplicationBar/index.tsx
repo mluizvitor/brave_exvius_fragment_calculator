@@ -1,30 +1,13 @@
 import { AddRounded, ClearRounded, DeleteForeverRounded, SearchRounded } from '@mui/icons-material';
 import AppBar from '@mui/material/AppBar';
-import Fab from '@mui/material/Fab';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import SvgIcon from '@mui/material/SvgIcon';
-import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useDialog } from '../../hooks/useDialog';
 import { useUnit } from '../../hooks/useUnit';
-
-const fabStyles = {
-  position: {
-    md: 'relative',
-    xs: 'fixed',
-  },
-  bottom: {
-    md: 0,
-    xs: 16,
-  },
-  right: {
-    md: 0,
-    xs: 16,
-  },
-};
+import { StyledFab, StyledOutlinedInput, StyledToolbar } from './styles';
 
 export function ApplicationBar() {
   const {unitCollection, searchInput, searchUnit} = useUnit();
@@ -49,25 +32,10 @@ export function ApplicationBar() {
       color='secondary'
       enableColorOnDark
       variant='outlined'
-      sx={{
-        alignItems: 'center',
-      }}>
-      <Toolbar
-        sx={{ 
-          pl: {
-            md: 4,
-            sm: 2,
-            xs: 1,
-          },
-          pr: {
-            md: 4,
-            sm: 2,
-            xs: 1,
-          },
-          width: '100%',
-          maxWidth: 'xl',
-          gap: 1,
-        }}>
+      elevation={0}
+      sx={{ alignItems: 'center' }}>
+
+      <StyledToolbar>
         <IconButton href='/brave_exvius_fragment_calculator'
           color='primary'>
           <SvgIcon>
@@ -77,22 +45,22 @@ export function ApplicationBar() {
 
         <Typography variant='h5'
           component='h1'
-          noWrap
           sx={{
             display: {
               sm: 'block',
               xs: 'none',
             },
-            flexGrow: 1,
+            minWidth: 190,
           }}>
           {'FFBE Fragments'}
         </Typography>
 
-        <OutlinedInput
+        <StyledOutlinedInput
           size='small'
           placeholder='Procurar unidade'
           value={searchInput}
           onChange={(e) => searchUnit(e.target.value)}
+          // sx={{flexGrow: 0, minWidth: '128px'}}
           startAdornment={(
             <InputAdornment position='start'>
               <SearchRounded />
@@ -110,14 +78,13 @@ export function ApplicationBar() {
           )}
         />
 
-        <Fab
+        <StyledFab
           color='primary'
           onClick={handleAddDialogToggle}
-          variant='extended'
-          sx={fabStyles}>
+          variant='extended'>
           <AddRounded sx={{mr: 1}}/>
           {'Adicionar Unidade'}
-        </Fab>
+        </StyledFab>
 
         <Tooltip title='Deletar tudo'
           arrow>
@@ -130,7 +97,7 @@ export function ApplicationBar() {
             </IconButton>
           </span>
         </Tooltip>
-      </Toolbar>
+      </StyledToolbar>
     </AppBar>
   );
 }
