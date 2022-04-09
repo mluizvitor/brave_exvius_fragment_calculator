@@ -27,7 +27,7 @@ export const StyledContainer = styled(Container)(({theme}) => ({
 
 export const StyledPaper = styled(Paper)(() => ({
   [`&.${paperClasses.root}`]: {
-    borderRadius: '16px 16px 8px 8px',
+    borderRadius: 16,
     overflow: 'hidden',
     boxShadow: 'none',
   },

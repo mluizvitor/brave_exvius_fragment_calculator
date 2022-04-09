@@ -246,6 +246,7 @@ export function UnitTable() {
             </Table>
           </StyledTableContainer>
           <TablePagination
+            sx={{marginRight: '4px'}}
             rowsPerPageOptions={[]}
             component='div'
             count={unitCollection.length}

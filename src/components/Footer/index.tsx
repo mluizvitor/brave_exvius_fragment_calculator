@@ -1,9 +1,11 @@
-import { Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
-import { StyledContainer } from './styles';
+import { Button, CardActions, CardContent, Grid, Link, Typography } from '@mui/material';
+import { StyledCard, StyledCardBox, StyledCardMedia, StyledContainer } from './styles';
+import { OpenInNewRounded } from '@mui/icons-material';
 
 import fragmentsImg from '../../assets/fragments.svg';
 import awakenImg from '../../assets/awaken.svg';
 import trainingImg from '../../assets/training.svg';
+import infoImg from '../../assets/info.svg';
 
 export function Footer() {
   return (
@@ -13,15 +15,12 @@ export function Footer() {
         columns={{
           xs: 1,
           sm: 2,
-          md: 3,
         }}>
 
         <Grid item
           xs={1}>
-          <Card elevation={1}
-            sx={{boxShadow: 'none', borderRadius: '16px 16px 8px 8px'}}>
-            <CardMedia component='img'
-              height={192}
+          <StyledCard elevation={1}>
+            <StyledCardMedia component='img'
               image={fragmentsImg}
               aria-hidden/>
             <CardContent>
@@ -40,14 +39,13 @@ export function Footer() {
                 {'estão mais próximas do despertar, seguido do nível NV Ex mais baixo.'}
               </Typography>
             </CardContent>
-          </Card>
+          </StyledCard>
         </Grid>
 
         <Grid item
           xs={1}>
-          <Card elevation={1}
-            sx={{boxShadow: 'none', borderRadius: '16px 16px 8px 8px'}}>
-            <CardMedia component='img'
+          <StyledCard elevation={1}>
+            <StyledCardMedia component='img'
               height={192}
               image={awakenImg}
               aria-hidden/>
@@ -62,21 +60,18 @@ export function Footer() {
                 {'Quando há fragmentos suficientes, o status "Pode ser despertado" muda para você '}
                 {'saber que pode despertar sua Unidade manualmente dentro do jogo.'}
               </Typography>
-              <Typography variant='body2'
-                gutterBottom>
+              <Typography variant='body2'>
                 {'Quando você despertar a unidade dentro do jogo, não esqueça também de despertar '}
-                {'aqui, para que você não perca seu progresso'}
+                {'aqui, para que você não perca seu progresso.'}
               </Typography>
             </CardContent>
-          </Card>
+          </StyledCard>
         </Grid>
 
         <Grid item
           xs={1}>
-          <Card elevation={1}
-            sx={{boxShadow: 'none', borderRadius: '16px 16px 8px 8px'}}>
-            <CardMedia component='img'
-              height={192}
+          <StyledCard elevation={1}>
+            <StyledCardMedia component='img'
               image={trainingImg}
               aria-hidden/>
             <CardContent>
@@ -95,7 +90,63 @@ export function Footer() {
                 {'restantes para despertar.'}
               </Typography>
             </CardContent>
-          </Card>
+          </StyledCard>
+        </Grid>
+
+        <Grid item
+          xs={1}
+          md={3}>
+          <StyledCard elevation={1}>
+            <StyledCardMedia component='img'
+              image={infoImg}
+              aria-hidden/>
+
+            <StyledCardBox>
+              <CardContent sx={{ flex: '1 0 auto' }}>
+                <Typography variant='h5'
+                  gutterBottom
+                  component='h2'>
+                  {'Sobre'}
+                </Typography>
+
+                <Typography variant='body2'>
+                  {'Desenvolvido por '}
+                  <Link href='https://linkedin.com/in/mluizvitor'
+                    target='_blank'
+                    rel='noopener noreferrer'>{'Vitor Monteiro'}</Link>
+                  {' com '}
+                  <Link href='https://reactjs.org/'
+                    target='_blank'
+                    rel='noopener noreferrer'>{'ReactJS'}</Link>
+                  {' e '}
+                  <Link href='https://mui.com'
+                    target='_blank'
+                    rel='noopener noreferrer'>{'MUI'}</Link>
+                  {'.'}
+                </Typography>
+              </CardContent>
+            
+              <CardActions>
+                <Button href='https://linkedin.com/in/mluizvitor'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  endIcon={
+                    <OpenInNewRounded sx={{width: 16}}/>
+                  }>
+                  {'Linkedin'}
+                </Button>
+                <Button href='https://github.com/mluizvitor'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  endIcon={
+                    <OpenInNewRounded sx={{width: 16}}/>
+                  }>
+                  {'Github'}
+                </Button>
+              </CardActions>
+
+            </StyledCardBox>
+          </StyledCard>
         </Grid>
 
       </Grid>
