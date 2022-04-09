@@ -1,18 +1,19 @@
 {
   "files": {
     "main.css": "/brave_exvius_fragment_calculator/static/css/main.9e06cd67.css",
-    "main.js": "/brave_exvius_fragment_calculator/static/js/main.e28dfd94.js",
+    "main.js": "/brave_exvius_fragment_calculator/static/js/main.762bbb09.js",
     "static/js/787.b669ff03.chunk.js": "/brave_exvius_fragment_calculator/static/js/787.b669ff03.chunk.js",
     "static/media/fragments.svg": "/brave_exvius_fragment_calculator/static/media/fragments.ad99224c9859de964fb3d0868e355491.svg",
     "static/media/awaken.svg": "/brave_exvius_fragment_calculator/static/media/awaken.31ee39d703706a1b32b21f5fba6bcd0b.svg",
     "static/media/training.svg": "/brave_exvius_fragment_calculator/static/media/training.4fe1f7cd79182a0ee6e5feb96e367658.svg",
+    "static/media/info.svg": "/brave_exvius_fragment_calculator/static/media/info.d689ec150f4a7f5eb05051224ff32352.svg",
     "index.html": "/brave_exvius_fragment_calculator/index.html",
     "main.9e06cd67.css.map": "/brave_exvius_fragment_calculator/static/css/main.9e06cd67.css.map",
-    "main.e28dfd94.js.map": "/brave_exvius_fragment_calculator/static/js/main.e28dfd94.js.map",
+    "main.762bbb09.js.map": "/brave_exvius_fragment_calculator/static/js/main.762bbb09.js.map",
     "787.b669ff03.chunk.js.map": "/brave_exvius_fragment_calculator/static/js/787.b669ff03.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9e06cd67.css",
-    "static/js/main.e28dfd94.js"
+    "static/js/main.762bbb09.js"
   ]
 }
